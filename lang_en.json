@@ -1,0 +1,109 @@
+{
+    "moderation":{
+        "admin": "",
+        "ot": "",
+        "actions": "",
+        "ban": "",
+        "kick": "",
+        "unwarn": "",
+        "warn": "",
+        "unmute": "",
+        "mute": "",
+        "reason": "",
+        "report": "",
+        "blockInvites": "",
+        "clear": "",
+        "welcomemessage": "",
+        "createstats": "",
+        "roomcreator": "",
+        "cmdchannel": "",
+        "voiceonline": "",
+        "autorole": ""
+    },
+
+    "info":{
+        "ping":"",
+        "help":"",
+        "invite":"",
+        "author":"",
+        "marks":"",
+        "profile":"",
+        "userinfo":"",
+        "serverinfo":"",
+        "clientstats":""
+    },
+
+    "alert":{
+        "noPerm":"",
+        "noNum":"",
+        "noUser":"",
+        "noMoney":"",
+        "err":""
+    },
+
+    "economy":{
+        "nowMoney":"",
+        "add":"",
+        "set":"",
+        "setlvl":"",
+        "shop":"",
+        "bonus":"",
+        "pay":"",
+        "work":"",
+        "worklist":""
+    },
+
+    "roleplay":{
+        "kiss":"",
+        "slap":"",
+        "like":"",
+        "say":""
+    },
+
+    "fun":{
+        "ms":"",
+        "casino":"",
+        "wheel":"",
+        "bitcoin":"",
+        "roll":"",
+        "sh":"",
+        "weather":""
+    },
+
+    "other":{
+        "bug":"",
+        "ntf":"",
+        "thxvote":"",
+        "clan":"",
+        "marry":"",
+        "rep":"",
+        "avatar":""
+    },
+
+    "yt_music":{
+        "play":"",
+        "queue":"",
+        "stop":"",
+        "skip":"",
+        "volume":"",
+        "joinleave":""
+    },
+
+    "server_region":{
+        "russia": "🇷🇺 | Russia",
+        "india": "🇮🇳 | India",
+        "brazil": "🇧🇷 | Brazil",
+        "japan": "🇯🇵 | Japan",
+        "dubai": "🇦🇪 | Dubai",
+        "eu-central": "🇪🇺 | Central Europe",
+        "eu-west": "🇪🇺 | Western Europe",
+        "singapore": "🇸🇬 | Singapore",
+        "hongkong": "🇭🇰 | Hong Kong",
+        "southsfrica": "🇿🇦 | South Africa",
+        "us-central": "🇺🇲 | United States of America",
+        "us-west": "🇺🇲 | United States of America",
+        "us-east": "🇺🇲 | United States of America",
+        "us-south": "🇺🇲 | United States of America",
+        "sydney": "🇦🇺 | Sydney"
+    }
+}
