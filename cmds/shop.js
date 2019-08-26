@@ -25,39 +25,39 @@ module.exports.run = async (client, message, args) => {
 
         switch (args[0].toLowerCase()) {
             case 'add':
-                if (!message.member.hasPermission("MANAGE_ROLES")) { embed.setDescription(noPerm); return client.send(embed); }
-                if (!args[1]) { embed.setDescription(msgs[2]); return client.send(embed); }
-                if (!args[2]) { embed.setDescription(msgs[3]); return client.send(embed); }
-                if (!isNumeric(args[2])) { embed.setDescription(msgs[3]); return client.send(embed); }
-                if (!getRole) { embed.setDescription(msgs[2]); return client.send(embed); }
+                if (!message.member.hasPermission("MANAGE_ROLES")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+                if (!args[1]) { embed.setDescription(msgs[2]); return message.channel.send(embed); }
+                if (!args[2]) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
+                if (!isNumeric(args[2])) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
+                if (!getRole) { embed.setDescription(msgs[2]); return message.channel.send(embed); }
                 client.guild.push(`shop_${message.guild.id}`, `${getRole.id}b`)
                 client.guild.push(`prices_${message.guild.id}`, `${Math.floor(args[2])}b`)
                 embed.setColor('#FFA420');
                 embed.setDescription(msgs[4]);
-                return client.send(embed);
+                return message.channel.send(embed);
             
             case 'clear':
-                if (!message.member.hasPermission("ADMINISTRATOR")) { embed.setDescription(noPerm); return client.send(embed); }
+                if (!message.member.hasPermission("ADMINISTRATOR")) { embed.setDescription(noPerm); return message.channel.send(embed); }
                 client.guild.delete(`shop_${message.guild.id}`)
                 client.guild.delete(`prices_${message.guild.id}`)
                 embed.setDescription(msgs[5]);
-                return client.send(embed);
+                return message.channel.send(embed);
             
             case 'buy':
                 if (isNumeric(args[1])) {
                     Math.floor(args[1])
-                    if (args[1] > roles.length) { embed.setDescription(`Вы ввели слишком большое число | You > num ya hz inglish`); return client.send(embed); }
-                    if (args[1] <= 0) { embed.setDescription(`Вы ввели слишком маленькое число | You < num ya hz inglish`); return client.send(embed); }
+                    if (args[1] > roles.length) { embed.setDescription(`Вы ввели слишком большое число | You > num ya hz inglish`); return message.channel.send(embed); }
+                    if (args[1] <= 0) { embed.setDescription(`Вы ввели слишком маленькое число | You < num ya hz inglish`); return message.channel.send(embed); }
                     if (roles[x]) {
-                        if (client.lprofile.fetch(`coins_${message.author.id}_${message.guild.id}`) < parseInt(prices[x])) { embed.setDescription(noMoney); return client.send(embed); }
+                        if (client.lprofile.fetch(`coins_${message.author.id}_${message.guild.id}`) < parseInt(prices[x])) { embed.setDescription(noMoney); return message.channel.send(embed); }
                         let role = message.guild.roles.get(`${(roles[x].slice(0, -1))}`);
-                        if (!role) { embed.setDescription(`Роль была удалена | Role deleted`); return client.send(embed); }
-                        if (message.member.roles.has(role.id)) { embed.setDescription(`Вы уже купили эту роль | You arleady buy thus role`); return client.send(embed); }
+                        if (!role) { embed.setDescription(`Роль была удалена | Role deleted`); return message.channel.send(embed); }
+                        if (message.member.roles.has(role.id)) { embed.setDescription(`Вы уже купили эту роль | You arleady buy thus role`); return message.channel.send(embed); }
                         client.lprofile.subtract(`coins_${message.author.id}_${message.guild.id}`, parseInt(prices[x].slice(0, -1)))
                         message.member.addRole(role);
                         embed.setColor('#FFA420');
                         embed.setDescription(`${msgs[9]} ${role}`);
-                        return client.send(embed);
+                        return message.channel.send(embed);
                     }
                 } else {
                     embed.setDescription(`${noNum}`);
@@ -66,13 +66,13 @@ module.exports.run = async (client, message, args) => {
 
                 default:
                 embed.setColor('#FFA420');
-                if (roles == null || roles[0] == '') { embed.setDescription(msgs[1]); return client.send(embed); }
+                if (roles == null || roles[0] == '') { embed.setDescription(msgs[1]); return message.channel.send(embed); }
                 for (let i = 0; i < roles.length; i++) {
                     let role = message.guild.roles.get(`${(roles[i].slice(0, -1))}`);
                     if (!role) { role = 'deleted-role'; embed.addField(`**[${i + 1}]** ${role}`, `${parseInt(prices[i]).toLocaleString()}`) }
                     else embed.addField(`**[${i + 1}]** ${role.name}`, `${parseInt(prices[i]).toLocaleString()}`, true)
                 }
-                return client.send(embed)
+                return message.channel.send(embed)
             
         }
 
@@ -85,7 +85,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

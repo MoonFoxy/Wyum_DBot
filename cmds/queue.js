@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
             .setFooter(ntf, message.author.avatarURL);
         let fetched = client.active.get(message.guild.id);
 
-        if (!fetched) { embed.setDescription('**No tracks found** | **Треков не обнаружено**'); return client.send(embed) }
+        if (!fetched) { embed.setDescription('**No tracks found** | **Треков не обнаружено**'); return message.channel.send(embed) }
 
         let queue = fetched.queue;
         let nowPlaying = queue[0];
@@ -45,7 +45,7 @@ module.exports.run = async (client, message, args) => {
             .setColor("#6767e0")
             .addField('**Очередь** | **Queue**', resp)
             .setFooter(ntf, message.author.avatarURL);
-        client.send(bembed);
+        message.channel.send(bembed);
 
     } catch (err) {
          let config = require('../config.json');
@@ -56,7 +56,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

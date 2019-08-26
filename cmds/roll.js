@@ -37,7 +37,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('#10e250')
             .addField(msgs[1], rand)
             .setFooter(ntf, message.author.avatarURL)
-        client.send(embed);
+        message.channel.send(embed);
 
     } catch (err) {
        let config = require('../config.json');
@@ -48,7 +48,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

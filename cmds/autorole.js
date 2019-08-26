@@ -16,9 +16,9 @@ module.exports.run = async (client, message, args) => {
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
 
-        if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
-        if (!args[0]) { embed.setDescription(`${config.prefix}autorole @role`); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(`${config.prefix}autorole @role`); return message.channel.send(embed); }
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args) => {
                 });
             });
         }
-        if (!role) { embed.setDescription(`${config.prefix}autorole @role`); return client.send(embed); }
+        if (!role) { embed.setDescription(`${config.prefix}autorole @role`); return message.channel.send(embed); }
         let guildid = message.guild.id
         client.guild.set(`autorole_${guildid}`, role.id)
         let bembed = new Discord.RichEmbed()
@@ -39,7 +39,7 @@ module.exports.run = async (client, message, args) => {
             .setDescription(`**${msgs[1]}**`)
             .setFooter(ntf, message.author.avatarURL);
         logschannel.send(bembed)
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -49,7 +49,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

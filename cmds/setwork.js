@@ -10,13 +10,13 @@ module.exports.run = async (client, message, args) => {
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL)
             .setColor('RANDOM');
         if (uadmin != 1) return;
-        if (!args[0]) { embed.setDescription('Вы не указали пользователя'); return client.send(embed); }
-        if (!rUser) { embed.setDescription('Пользователь не найден'); return client.send(embed); }
+        if (!args[0]) { embed.setDescription('Вы не указали пользователя'); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription('Пользователь не найден'); return message.channel.send(embed); }
         let userid = rUser.id;
         client.profile.set(`work_${userid}`,Math.floor(parseInt(args[1]))-1);
         client.profile.set(`workCooldown_${userid}`,0);
         embed.setDescription(`Вы установили ${rUser} уровень работы **${Math.floor(parseInt(args[1]))}**`);
-        client.send(embed);
+        message.channel.send(embed);
 
     } catch (err) {
         let config = require('../config.json');
@@ -27,7 +27,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`Если ошибка не пропадает обратитесь к ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

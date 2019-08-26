@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
 
-        if (args) if (args[0] == 'help') return client.send(`**marks** - Значки\n**Использование:** ${config.prefix}marks`);
+        if (args) if (args[0] == 'help') return message.channel.send(`**marks** - Значки\n**Использование:** ${config.prefix}marks`);
         let embed = new Discord.RichEmbed()
             .setDescription(msgs[0])
             .setColor(`#641349`)
@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${msgs[22]}** :boom:`, msgs[12])
             .addField(`**Hacker** :spy:`, `${msgs[23]} <@526513788611198987>`)
             .setFooter(ntf);
-        client.send(embed)
+        message.channel.send(embed)
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -40,7 +40,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

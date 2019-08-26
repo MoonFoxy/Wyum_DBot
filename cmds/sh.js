@@ -26,20 +26,20 @@ module.exports.run = async (client, message, args) => {
             .setTitle(msgs[0])
             .setFooter(ntf, message.author.avatarURL)
             .setColor('#e22216');
-    if (!args[0]) { embed.setDescription(msgs[1]); return client.send(embed); };
+    if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed); };
     if (!args[1]) {
         shorten.shorten(args[0], function (res) {
-            if (res.startsWith('Ошибка:')) { embed.setDescription(msgs[1]); return client.send(embed); };
+            if (res.startsWith('Ошибка:')) { embed.setDescription(msgs[1]); return message.channel.send(embed); };
             embed.setDescription(`*<${res}>*`);
             embed.setColor('#ff00cc');
-            return client.send(embed);
+            return message.channel.send(embed);
         })
     } else {
         shorten.custom(args[0], args[1], function (res) {
-            if (res.startsWith('Ошибка')) { embed.setDescription(`${res}`); return client.send(embed); };
+            if (res.startsWith('Ошибка')) { embed.setDescription(`${res}`); return message.channel.send(embed); };
             embed.setColor('#ff00cc');
             embed.setDescription(`*<${res}>*`); 
-            return client.send(embed);
+            return message.channel.send(embed);
 
         })
     }

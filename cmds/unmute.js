@@ -32,11 +32,11 @@ module.exports.run = async (client, message, args) => {
             .setColor('#d82d08')
             .setFooter(ntf, message.author.avatarURL)
             .setThumbnail('https://discordemoji.com/assets/emoji/1132_Ricardo.gif');
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) { embed.setDescription(noPerm); return client.send(embed); };
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!message.member.hasPermission("MANAGE_MESSAGES")) { embed.setDescription(noPerm); return message.channel.send(embed); };
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let role = message.guild.roles.find(r => r.name === config.muteRole);
-        if (!rUser.roles.has(role.id)) { embed.setDescription(msgs[0]); return client.send(embed); };
+        if (!rUser.roles.has(role.id)) { embed.setDescription(msgs[0]); return message.channel.send(embed); };
         if (!role) {
             role = await message.guild.createRole({
                 name: config.muterole,
@@ -66,7 +66,7 @@ module.exports.run = async (client, message, args) => {
 
         embed.addField(msgs[1], `${rUser}`); 
         logschannel.send(embed);
-        return client.send(embed).then(msg => msg.delete(60*1000));
+        return message.channel.send(embed).then(msg => msg.delete(60*1000));
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -76,7 +76,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

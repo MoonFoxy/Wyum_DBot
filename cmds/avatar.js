@@ -12,13 +12,13 @@ module.exports.run = (client, message, args) => {
     let noUser = alert.noUser;
     
     let usr = message.mentions.users.first() ? message.mentions.users.first() : message.author;
-    if (!usr) return client.send(noUser);
+    if (!usr) return message.channel.send(noUser);
     let embed = new Discord.RichEmbed()
         .setColor('#db9834')
         .setAuthor(`${client.user.username}`, client.user.avatarURL)
         .setTitle(`${msgs[0]} ${usr.username}!`)
         .setImage(usr.avatarURL);
-    client.send(embed);
+    message.channel.send(embed);
   
 }
 module.exports.help = {

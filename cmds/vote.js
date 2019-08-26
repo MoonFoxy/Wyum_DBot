@@ -23,7 +23,7 @@ exports.run = async (client, message, args) => {
         .setDescription(msgs[0])
         .setColor('#10e250')
         .addField(msgs[3],'**https://discordbots.org/bot/net*')
-    client.send(emb)
+    message.channel.send(emb)
 }
 exports.help = {
     name: 'vote',

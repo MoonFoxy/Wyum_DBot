@@ -86,7 +86,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`:military_medal: ${msgs[13]}`,votes)
             .setFooter(ntf, message.author.avatarURL);
         if (admin == 1) embed.addField(`:spy: Вы администратор бота`, `А другие нет)`, true)
-        client.send(embed);
+        message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -96,7 +96,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

@@ -28,12 +28,12 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle("**Варн**")
             .setColor('#e22216');
-        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let warns = client.lprofile.fetch(`warns_${rUser.id}_${rUser.guild.id}`);
         client.lprofile.add(`warns_${rUser.id}_${rUser.guild.id}`, 1);
         let embeds = new Discord.RichEmbed()
@@ -55,7 +55,7 @@ module.exports.run = async (client, message, args) => {
             });
         }
         logschannel.send(embeds)
-        client.send(embeds);
+        message.channel.send(embeds);
         if (warns >= 3) {
             client.lprofile.set(`warns_${rUser.id}`, 0);
             message.guild.member(rUser).ban("3/3 Предупреждений | Warns");
@@ -69,7 +69,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

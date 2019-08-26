@@ -21,15 +21,15 @@ module.exports.run = async (client, message, args) => {
             .setTitle(`**${msgs[0]}**`)
             .setFooter(ntf, message.author.avatarURL)
             .setColor('#e22216');
-        if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         let res = args.slice(1).join(" ");
 
-        if (!args[0]) { embed.setColor('#d82d08');embed.setDescription(`**${noUser}**\n*${config.prefix}add @user 500*`); return client.send(embed); };
-        if (!rUser) { embed.setColor('#d82d08');embed.setDescription(noUser); return client.send(embed); }
-        if (!res) { embed.setColor('#d82d08');embed.setDescription(`**${noNum}**\n*${config.prefix}add @user 500*`); return client.send(embed); };
-        if (!isNumeric(res)) { embed.setColor('#d82d08');embed.setDescription(`**${noNum}**\n*${config.prefix}add @user 500*`); return client.send(embed); };
+        if (!args[0]) { embed.setColor('#d82d08');embed.setDescription(`**${noUser}**\n*${config.prefix}add @user 500*`); return message.channel.send(embed); };
+        if (!rUser) { embed.setColor('#d82d08');embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!res) { embed.setColor('#d82d08');embed.setDescription(`**${noNum}**\n*${config.prefix}add @user 500*`); return message.channel.send(embed); };
+        if (!isNumeric(res)) { embed.setColor('#d82d08');embed.setDescription(`**${noNum}**\n*${config.prefix}add @user 500*`); return message.channel.send(embed); };
         client.lprofile.add(`coins_${rUser.id}_${message.guild.id}`, Math.floor(parseInt(res)));
         let coins = client.lprofile.fetch(`coins_${rUser.id}_${message.guild.id}`);
         if (coins === null) client.lprofile.set(`coins_${rUser.id}_${message.guild.id}`, 1 + Math.floor(parseInt(res)));
@@ -40,7 +40,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`${msgs[1]} ${rUser.user.tag} ${res} $`, `${nowMoney} ${coins}`)
             .setFooter(ntf, message.author.avatarURL);
 
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -50,7 +50,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**:tada: ${msgs[3]}**`, '``cat`` ``dog`` ``fox`` ``kiss`` ``slap`` ``roll`` ``ms`` ``marry`` ``like`` ``chat`` ``textfilp`` ``play``')
             .setFooter(`${msgs[4]}`)
             .setThumbnail('https://discordemoji.com/assets/emoji/6406_thonk_tree.gif');
-        client.send(emb)
+        message.channel.send(emb)
 
     } catch (err) {
         let config = require('../config.json');
@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

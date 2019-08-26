@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
         .setColor('#f646ff')
         .setImage(`https://media1.tenor.com/images/45e529c116a1758fd09bdb27e2172eca/tenor.gif?itemid=11674749`)
         .setFooter(ntf)
-    client.send(emb)
+    message.channel.send(emb)
 };
 module.exports.help = {
     name: "kiss",

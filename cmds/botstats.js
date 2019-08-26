@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args) => {
         .addField(`💡 | Discord.js`, `v${version}`, true)
         .setFooter(ntf, message.author.avatarURL);
 
-    client.send(embed);
+    message.channel.send(embed);
 };
 
 module.exports.help = {

@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
     let embed = new Discord.RichEmbed()
         .setTitle(`**${msgs[0]}**`)
         .setColor('#10e250')
-    if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return client.send(embed); }
+    if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return message.channel.send(embed); }
     let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
     if (!logschannel) {
         await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
@@ -33,7 +33,7 @@ module.exports.run = async (client, message, args) => {
         .setDescription(`**${msgs[1]}**`)
         .setFooter(ntf, message.author.avatarURL);
     logschannel.send(bembed)
-    client.send(bembed);
+    message.channel.send(bembed);
 };
 module.exports.help = {
     name: "blockinvites",

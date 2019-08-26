@@ -18,7 +18,7 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
-        if (client.guild.fetch(`casino_${guildid}`) == false) { embed.setDescription(noPerm); return client.send(embed); }
+        if (client.guild.fetch(`casino_${guildid}`) == false) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
@@ -31,7 +31,7 @@ module.exports.run = async (client, message, args) => {
         let rand3 = Math.floor(Math.random() * (slot.length - 0) + 0);
 
         let result = slot[rand1] + slot[rand2] + slot[rand3];
-        if (!args[0]) { embed.setDescription(`${msgs[1]}\n**${config.prefix}casino l 1000**`); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(`${msgs[1]}\n**${config.prefix}casino l 1000**`); return message.channel.send(embed); }
         let bal;
         let adal;
         let cur;
@@ -50,7 +50,7 @@ module.exports.run = async (client, message, args) => {
                 break;
             default:
                 embed.setDescription(`${msgs[1]}\n**${config.prefix}casino l 1000**`);
-                return client.send(embed);
+                return message.channel.send(embed);
         }
         let uCoins = bal
         let coef1 = 2;
@@ -59,29 +59,29 @@ module.exports.run = async (client, message, args) => {
         if (!cur) return;
         if (!adal) return;
         if (uCoins === null) return;
-        if (!isNumeric(Math.floor(parseInt(args[1])))) { embed.setDescription(msgs[3]); return client.send(embed); }
-        if (!args[1]) { embed.setDescription(msgs[3]); return client.send(embed); }
-        if (uCoins < Math.floor(parseInt(args[1]))) { embed.setDescription(`${noMoney} **${bal}**`); return client.send(embed); }
-        if (Math.floor(parseInt(args[1])) < 10) { embed.setDescription(`${msgs[2]} 10`); return client.send(embed); }
+        if (!isNumeric(Math.floor(parseInt(args[1])))) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
+        if (!args[1]) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
+        if (uCoins < Math.floor(parseInt(args[1]))) { embed.setDescription(`${noMoney} **${bal}**`); return message.channel.send(embed); }
+        if (Math.floor(parseInt(args[1])) < 10) { embed.setDescription(`${msgs[2]} 10`); return message.channel.send(embed); }
         const bembed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
             .setColor('#6600ff')
             .setFooter(ntf, message.author.avatarURL);
         if (rand1 == rand2 || rand2 == rand3) {
             bembed.setDescription(`🎰**${msgs[0]}**🎰\n${result}\n🎰**${msgs[0]}**🎰\n ${msgs[4]} ${Math.floor(parseInt(args[1]) * coef1)}`);
-            client.send(bembed);
+            message.channel.send(bembed);
             cur.add(`${adal}`, Math.floor(parseInt(args[1])));
 
 
         } else if (rand1 == rand2 && rand2 == rand3) {
 
             bembed.setDescription(`🎰**${msgs[0]}**🎰\n${result}\n🎰**${msgs[0]}**🎰\n ${msgs[4]} ${Math.floor(parseInt(args[1]) * coef2)}`);
-            client.send(bembed);
+            message.channel.send(bembed);
             cur.add(`${adal}`, Math.floor(parseInt(args[1]) * coef1))
 
         } else {
             bembed.setDescription(`🎰**${msgs[0]}**🎰\n${result}\n🎰**${msgs[0]}**🎰\n ${msgs[5]} ${Math.floor(parseInt(args[1]))}`);
-            client.send(bembed);
+            message.channel.send(bembed);
             cur.subtract(`${adal}`, Math.floor(parseInt(args[1])))
 
 
@@ -95,7 +95,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

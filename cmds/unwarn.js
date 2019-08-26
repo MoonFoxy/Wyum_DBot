@@ -28,14 +28,14 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(msgs[0])
             .setColor('#e22216');
-        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let warns = client.lprofile.fetch(`warns_${rUser.id}_${rUser.guild.id}`);
-        if (warns <= 0) { embed.setDescription(msgs[0]); embed.setDescription(msgs[1]); return client.send(embed); }
+        if (warns <= 0) { embed.setDescription(msgs[0]); embed.setDescription(msgs[1]); return message.channel.send(embed); }
         client.lprofile.subtract(`warns_${rUser.id}_${rUser.guild.id}`, 1);
         let embeds = new Discord.RichEmbed()
             .setDescription(msgs[0])
@@ -55,7 +55,7 @@ module.exports.run = async (client, message, args) => {
             });
         }
         logschannel.send(embeds)
-        client.send(embeds);
+        message.channel.send(embeds);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -65,7 +65,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

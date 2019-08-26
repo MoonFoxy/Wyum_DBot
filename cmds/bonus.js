@@ -16,7 +16,7 @@ module.exports.run = async (client, message, args) => {
         let wrong = new Discord.RichEmbed()
             .setColor('#ee281f')
             .setDescription(`**${message.author.tag}** ${msgs[0]} **${s.minutes} minutes ${s.seconds} seconds**`)
-        if (time > Date.now()) return client.send(wrong)
+        if (time > Date.now()) return message.channel.send(wrong)
 
         let add = Date.now() + ((client.cd * 60) * 1000);
         let mh;
@@ -28,7 +28,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('#77dd77')
             .setDescription(`${msgs[1]}${cd}${mh}`);
 
-        client.send(embed);
+        message.channel.send(embed);
 
         client.profile.add(`coins_${message.author.id}`, config.bonus);
         client.profile.set(`bonustime_${message.author.id}`, add);
@@ -42,7 +42,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 };

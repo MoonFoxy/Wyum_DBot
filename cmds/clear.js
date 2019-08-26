@@ -15,21 +15,21 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
-        if (!message.member.hasPermission(`MANAGE_MESSAGES`)) { embed.setDescription(noPerm); return client.send(embed); }
-        if (!args[0]) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (!message.member.hasPermission(`MANAGE_MESSAGES`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
         function isNumeric(n) {
 
             return !isNaN(parseFloat(n)) && isFinite(n);
 
         }
-        if (!isNumeric(args[0])) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (!isNumeric(args[0])) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
 
 
 
         Math.floor(args[0]);
-        if (args[0] > 100) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (args[0] > 100) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
 
-        if (args[0] < 1) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (args[0] < 1) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -45,13 +45,13 @@ module.exports.run = async (client, message, args) => {
             embed.setColor('#ffd8bd')
             embed.setDescription(`${message.author} | ${args[0]} `)
             logschannel.send(embed)
-            client.send(embed).then(msg => msg.delete(15 * 1000));
+            message.channel.send(embed).then(msg => msg.delete(15 * 1000));
 
         }).catch(err => {
             if (err.message == 'You can only bulk delete messages that are under 14 days old.') {
                 embed.setColor('#e22216');
                 embed.setDescription(msgs[2]);
-                client.send(embed)
+                message.channel.send(embed)
             }
         });
     } catch (err) {
@@ -63,7 +63,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

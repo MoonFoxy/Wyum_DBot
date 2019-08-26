@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
             .setColor('RANDOM')
-        if (!message.member.hasPermission(`ADMINISTRATOR`)) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission(`ADMINISTRATOR`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -37,7 +37,7 @@ module.exports.run = async (client, message, args) => {
         embed.setDescription(msgs[1])
         embed.setFooter(ntf, message.author.avatarURL)
         logschannel.send(embed);
-        client.send(embed);
+        message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -47,7 +47,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

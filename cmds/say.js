@@ -29,7 +29,7 @@ module.exports.run = async (client, message, args) => {
     let clientmessage = args.join(" ");
     if (!clientmessage) {return}
     message.delete().catch();
-    client.send(clientmessage);
+    message.channel.send(clientmessage);
 };
 module.exports.help = {
     name: "say",

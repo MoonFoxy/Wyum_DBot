@@ -28,10 +28,10 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`**${msgs[2]}**`)
             .setColor('#e22216')
-        if (!message.member.hasPermission(`MANAGE_ROLES`)) { embed.setDescription(noPerm); return client.send(embed); }
-        if (!args[0]) { embed.setDescription(msgs[0]); return client.send(embed); }
+        if (!message.member.hasPermission(`MANAGE_ROLES`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!args[0]) { embed.setDescription(msgs[0]); return message.channel.send(embed); }
         let msg = args.join(` `);
-        if (!msg) { embed.setDescription(msgs[0]); return client.send(embed); }
+        if (!msg) { embed.setDescription(msgs[0]); return message.channel.send(embed); }
         client.guild.set(`welcomemessage_${message.guild.id}`, msg);
 
         embed.setColor('#10e250')
@@ -49,7 +49,7 @@ module.exports.run = async (client, message, args) => {
             });
         }
         logschannel.send(embed);
-        client.send(embed);
+        message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -59,7 +59,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

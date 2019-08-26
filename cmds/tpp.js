@@ -2,14 +2,14 @@ const Discord = module.require("discord.js");
 module.exports.run = async (client,message,args) => {
     try{
 //    if(message.guild.id != "596463761918001211") return;
-    if(!message.member.voiceChannel) return client.send(`**${message.author} зайдите в голосовой канал**`);
+    if(!message.member.voiceChannel) return message.channel.send(`**${message.author} зайдите в голосовой канал**`);
     let pid = "601128457522511927";
-    if(message.member.voiceChannel.name.toLowerCase().indexOf('duo') == -1 && message.member.voiceChannel.name.toLowerCase().indexOf('squad') == -1 && message.member.voiceChannel.parentID != pid) return client.send(`**${message.author} Зайдите в предназначеный для этого канал**`)
+    if(message.member.voiceChannel.name.toLowerCase().indexOf('duo') == -1 && message.member.voiceChannel.name.toLowerCase().indexOf('squad') == -1 && message.member.voiceChannel.parentID != pid) return message.channel.send(`**${message.author} Зайдите в предназначеный для этого канал**`)
     let msg  = args.join(" ");
-    if(!msg) return client.send('**Использование !tpp ADR MAP**');
+    if(!msg) return message.channel.send('**Использование !tpp ADR MAP**');
     let kma = message.member.voiceChannel.members.map(m => m.id)
     let num = parseInt(message.member.voiceChannel.userLimit - kma.length);
-    if(num <= 0) return client.send(`**Комната ${message.member.voiceChannel.name} заполнена**`);
+    if(num <= 0) return message.channel.send(`**Комната ${message.member.voiceChannel.name} заполнена**`);
     message.delete();
     let findchannel = client.channels.get('601126724692082705')
     let vid = message.member.voiceChannel.members.map(m => m.id)

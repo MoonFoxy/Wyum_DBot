@@ -27,7 +27,7 @@ module.exports.run = async (client, message, args) => {
         .addField(`Pffagarvvbw2q5td`, `**${client.ping}**`)
         .setFooter(ntf, message.author.avatarURL)
         .setThumbnail('https://discordemoji.com/assets/emoji/2366_Loading_Pixels.gif');
-    client.send(emb);
+    message.channel.send(emb);
 };
 module.exports.help = {
     name: "ping",

@@ -111,8 +111,7 @@ client.on('ready', () => {
 //Реакция на сообщения
 client.on('message', async message => {
 
-    let blacklist = require('./blacklist.json');
-    if (message.author.id == blacklist.id) return;
+    if (message.author.id == config.banid) return ;
     if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
     if (message.guild.name != 'Discord Bot List') console.log(`${message.author.id} || ${message.guild.id} ||${message.guild.name} | ${message.channel.id} | ${message.channel.name} | [${message.author.tag}] | ${message.content}`)
     let clientvmsgs = clientstats.fetch(`viewMessages`);
@@ -124,10 +123,6 @@ client.on('message', async message => {
     if (message.author.id == client.user.id) clientstats.add('sendMessages', 1);
     if (message.author.bot) return;
     if (message.channel.type == 'dm') return;
-    let ch = await client.channels.get(message.channel.id);
-    client.send = async function (msg) {
-        await ch.send(msg);
-    };
 //--Реакция на сообщения
 
 
@@ -264,7 +259,7 @@ client.on('message', async message => {
                 .setTitle("**Значки**")
                 .setColor('RANDOM')
                 .setDescription(`${message.author} Вы получили значок ${mark}`)
-            client.send(mm);
+            message.channel.send(mm);
         }
         if (!marks.includes('🦄') && lvl >= 100) await addMark('🦄');
         if (!marks.includes('🙉') && lvl >= 999) await addMark('🙉');
@@ -353,19 +348,19 @@ client.on('message', async message => {
             .setColor('#FF0033')
             .setDescription(`:flag_ru: Используйте: ${prefix}lang ru\n:flag_gb: Use ${prefix}lang en`)
         if (command != `${prefix}lang`) {
-            return client.send(emb)
+            return message.channel.send(emb)
         } else {
-            if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription("Вам нужны права администратора\nYou need administrator rights");return client.send(emb)};
+            if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription("Вам нужны права администратора\nYou need administrator rights");return message.channel.send(emb)};
             if (args[0].toLowerCase() == 'ru') {
                 guild_$.set(`lang_${guildid}`, 'ru');
                 emb.setDescription("Теперь бот будет работать на **Русском** языке")
-                return client.send(emb)
+                return message.channel.send(emb)
             } else if (args[0].toLowerCase() == 'en') {
                 guild_$.set(`lang_${guildid}`, 'en');
                 emb.setDescription("Now the bot will work in **English** language")
-                return client.send(emb)
+                return message.channel.send(emb)
             } else {
-                return client.send(emb)
+                return message.channel.send(emb)
             };
         };
     };

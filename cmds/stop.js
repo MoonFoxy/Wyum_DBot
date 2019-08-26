@@ -26,12 +26,12 @@ module.exports.run = async (client, message, args) => {
             .setTitle("**sus**")
             .setColor('#e22216')
             .setFooter(ntf, message.author.avatarURL);
-        if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return client.send(embed); }
-        if (!message.guild.me.voiceChannel) { embed.setDescription(msgs[1]); return client.send(embed); }
-        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription('**Вы не можете управлять музыкой из другого канала** | **Go to music channel** ya hz'); return client.send(embed); }
+        if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed); }
+        if (!message.guild.me.voiceChannel) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
+        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription('**Вы не можете управлять музыкой из другого канала** | **Go to music channel** ya hz'); return message.channel.send(embed); }
 
         if (message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
-        embed.setColor('fae7b5'); embed.setDescription(msgs[2]); return client.send(embed);
+        embed.setColor('fae7b5'); embed.setDescription(msgs[2]); return message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -41,7 +41,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

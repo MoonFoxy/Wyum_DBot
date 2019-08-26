@@ -6,16 +6,16 @@ module.exports.run = async (client,message,args) => {
     let config = require ('../config.json');    
     let ok = '✅'
     let no = '❌'
-    if(!args[0]) return client.send(`**voicekick** - (Голосование) Кикнуть человека из комнаты\n**Использование:** ${config.prefix}kick @USER ПРИЧИНА\n**ПРИ ЗЛОУПОТРЕБЛЕНИИ ЭТОЙ КОМАНДОЙ ВЫ БУДЕТЕ ЗАБАНЕНЫ!**`);
-    if(args)if(args[0] == 'help') return client.send(`**voicekick** - (Голосование) Кикнуть человека из комнаты\n**Использование:** ${config.prefix}voicekick @USER ПРИЧИНА\n**ПРИ ЗЛОУПОТРЕБЛЕНИИ ЭТОЙ КОМАНДОЙ ВЫ БУДЕТЕ ЗАБАНЕНЫ!**`);
+    if(!args[0]) return message.channel.send(`**voicekick** - (Голосование) Кикнуть человека из комнаты\n**Использование:** ${config.prefix}kick @USER ПРИЧИНА\n**ПРИ ЗЛОУПОТРЕБЛЕНИИ ЭТОЙ КОМАНДОЙ ВЫ БУДЕТЕ ЗАБАНЕНЫ!**`);
+    if(args)if(args[0] == 'help') return message.channel.send(`**voicekick** - (Голосование) Кикнуть человека из комнаты\n**Использование:** ${config.prefix}voicekick @USER ПРИЧИНА\n**ПРИ ЗЛОУПОТРЕБЛЕНИИ ЭТОЙ КОМАНДОЙ ВЫ БУДЕТЕ ЗАБАНЕНЫ!**`);
     let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-    if(!rUser) return client.send('Пользователь не найден');
-    if(!message.member.voiceChannel) return client.send('Вы не в голосовом канале');
-    if(!rUser.voiceChannel) return client.send('Пользователь не в голосовом канале')
-    if(message.member.voiceChannelID != rUser.voiceChannelID) return client.send('Ваши комнаты не соответствуют;')
+    if(!rUser) return message.channel.send('Пользователь не найден');
+    if(!message.member.voiceChannel) return message.channel.send('Вы не в голосовом канале');
+    if(!rUser.voiceChannel) return message.channel.send('Пользователь не в голосовом канале')
+    if(message.member.voiceChannelID != rUser.voiceChannelID) return message.channel.send('Ваши комнаты не соответствуют;')
     let color = '#fbec5d'// ff2400 - Красный #fbec5d - желтый // 19ff19 зеленый
     let why  = args.slice(1).join(" ");
-    if(!why) return client.send('Укажите причину кика\n!kick @User Причина')
+    if(!why) return message.channel.send('Укажите причину кика\n!kick @User Причина')
     let findchannel = message.guild.channels.get('601126936772608010')
     let evote = new Discord.RichEmbed()
     .setDescription("Войс кик голосование")

@@ -15,7 +15,7 @@ exports.run = async (client, message, args) => {
         .addField(msgs[1], 'https://discord.gg/Z9Tepy3')
         .addField(msgs[2], 'https://discordapp.com/oauth2/authorize?client_id=526513788611198987&permissions=8&scope=bot')
         .addField(msgs[3],'https://discordbots.org/bot/526513788611198987')
-    client.send(emb)
+    message.channel.send(emb)
 }
 exports.help = {
     name: 'invite',

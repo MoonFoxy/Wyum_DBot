@@ -18,11 +18,11 @@ module.exports.run = async (client, message, args) => {
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
 
-        if (!message.member.hasPermission(`MANAGE_CHANNELS`)) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission(`MANAGE_CHANNELS`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
-        if (!args[0]) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
 
-        if (!ch) { embed.setDescription(msgs[1]); return client.send(embed); }
+        if (!ch) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
         client.guild.set(`cmdchannel_${message.guild.id}`, ch.id);
         let bembed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
@@ -41,7 +41,7 @@ module.exports.run = async (client, message, args) => {
             });
         }
         logschannel.send(bembed)
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

@@ -29,7 +29,7 @@ module.exports.run = async (client, message, args) => {
         .setImage(`https://media1.tenor.com/images/0720ffb69ab479d3a00f2d4ac7e0510c/tenor.gif?itemid=10422113`)
         .setColor('#f646ff')
         .setFooter(ntf)
-    client.send(emb)
+    message.channel.send(emb)
 };
 module.exports.help = {
     name: "slap",

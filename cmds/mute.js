@@ -19,8 +19,8 @@ module.exports.run = async (client, message, args) => {
             .setColor('#e22216')
             .setThumbnail('https://discordemoji.com/assets/emoji/1414_FeelsAbdulMan.gif');
         let noUser = lang.noUser;
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
-        if (!res) { embed.setDescription(`${bb[2]}\n${bb[1]}`); return client.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!res) { embed.setDescription(`${bb[2]}\n${bb[1]}`); return message.channel.send(embed); }
         let olang = otherlang.casino.split('<>');
         let evaled = eval('`' + lang.mute + '`');
         let noNum = lang.noNum;
@@ -38,13 +38,13 @@ module.exports.run = async (client, message, args) => {
             return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
-        if (!message.member.hasPermission(`MANAGE_MESSAGES`)) { embed.setDescription(noPerm); return client.send(embed); }
-        if (!args[0]) { embed.setDescription(`**${noUser}**\n${msgs[1]}`); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
-        if (!res) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return client.send(embed); }
+        if (!message.member.hasPermission(`MANAGE_MESSAGES`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!args[0]) { embed.setDescription(`**${noUser}**\n${msgs[1]}`); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!res) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return message.channel.send(embed); }
         if (!reason) { reason = reasonz[1] }
-        if (!isNumeric(ms(res))) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return client.send(embed); }
-        if (ms(res) < 1000) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return client.send(embed); }
+        if (!isNumeric(ms(res))) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return message.channel.send(embed); }
+        if (ms(res) < 1000) { embed.setDescription(`${msgs[2]}\n${msgs[1]}`); return message.channel.send(embed); }
         let role = message.guild.roles.find(r => r.name === config.muteRole);
 
         if (!role) {
@@ -60,7 +60,7 @@ module.exports.run = async (client, message, args) => {
             });
         };
 
-        if (rUser.roles.has(role.id)) { embed.setDescription(msgs[3]); return client.send(embed); }
+        if (rUser.roles.has(role.id)) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
 
         client.mutes.set(`guild_${rUser.id}`, rUser.guild.id);
         client.mutes.set(`time_${rUser.id}`, Date.now() + ms(res));
@@ -77,7 +77,7 @@ module.exports.run = async (client, message, args) => {
                 });
             });
         }
-        embed.setColor('#1bcf84'); embed.setDescription(msgs[4]); embed.addField(reasonz[0], reason); client.send(embed); rUser.send(embed)
+        embed.setColor('#1bcf84'); embed.setDescription(msgs[4]); embed.addField(reasonz[0], reason); message.channel.send(embed); rUser.send(embed)
         logschannel.send(embed)
     } catch (err) {
         let config = require('../config.json');
@@ -88,7 +88,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

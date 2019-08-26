@@ -10,13 +10,13 @@ exports.run = async (client, message, args) => {
     let ntf = eval('`' + lang.other.ntf + '`');
     let msgs = evaled.split('<>');
     
-    if (args) if (args[0] == 'help') return client.send(`**dog** - Рандомный песик (Author: Offsis)\n**Использование:** ${config.prefix}dog`);
+    if (args) if (args[0] == 'help') return message.channel.send(`**dog** - Рандомный песик (Author: Offsis)\n**Использование:** ${config.prefix}dog`);
     var { body } = await sa.get(`https://random.dog/woof.json`)
     var dog = new Discord.RichEmbed()
         .setColor('#fadbc8')
         .setImage(body.url)
         .setFooter(ntf)
-    client.send(dog)
+    message.channel.send(dog)
 }
 exports.help = {
     name: 'dog',

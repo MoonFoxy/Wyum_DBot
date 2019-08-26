@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) => {
             .setTitle(`**Pay**`)
             .setFooter(ntf, message.author.avatarURL)
             .setColor('#e22216');
-        if (!rUser) { embed.setDescription(`${noUser}`); return client.send(embed); }
+        if (!rUser) { embed.setDescription(`${noUser}`); return message.channel.send(embed); }
         let evaled = eval('`' + lang.pay + '`');
         let noNum = lang.noNum;
         let noPerm = lang.noPerm;
@@ -36,12 +36,12 @@ module.exports.run = async (client, message, args) => {
         let noMoney = lang.noMoney;
 
 
-        if (!args[0]) { embed.setDescription(`**${noUser}**\n${msgs[0]}`); return client.send(embed); };
-        if (!res) { embed.setDescription(`${msgs[0]}`); return client.send(embed); };
-        if (!isNumeric(Math.floor(parseInt(res)))) { embed.setDescription(`${msgs[0]}`); return client.send(embed); };
-        if (res <= 0) { embed.setDescription(`${msgs[1]}`); return client.send(embed); };
-        if (rUser.id == message.author.id) { embed.setDescription(`${msgs[2]}`); return client.send(embed); };
-        if (res > acoins) { embed.setDescription(`${msgs[3]}`); return client.send(embed); };
+        if (!args[0]) { embed.setDescription(`**${noUser}**\n${msgs[0]}`); return message.channel.send(embed); };
+        if (!res) { embed.setDescription(`${msgs[0]}`); return message.channel.send(embed); };
+        if (!isNumeric(Math.floor(parseInt(res)))) { embed.setDescription(`${msgs[0]}`); return message.channel.send(embed); };
+        if (res <= 0) { embed.setDescription(`${msgs[1]}`); return message.channel.send(embed); };
+        if (rUser.id == message.author.id) { embed.setDescription(`${msgs[2]}`); return message.channel.send(embed); };
+        if (res > acoins) { embed.setDescription(`${msgs[3]}`); return message.channel.send(embed); };
         client.lprofile.subtract(`coins_${message.author.id}_${message.guild.id}`, Math.floor(parseInt(res)))
         client.lprofile.add(`coins_${rUser.id}_${message.guild.id}`, Math.floor(parseInt(res)));
         let coins = client.lprofile.fetch(`coins_${rUser.id}_${message.guild.id}`);
@@ -53,7 +53,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`${msgs[4]}`, `${nowMoney} ${coins}`)
             .setFooter(ntf, message.author.avatarURL);
 
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -63,7 +63,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

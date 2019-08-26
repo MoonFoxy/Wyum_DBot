@@ -10,13 +10,13 @@ exports.run = async (client, message, args) => {
     let ntf = eval('`' + lang.other.ntf + '`');
     let msgs = evaled.split('<>');
     
-    if (args) if (args[0] == 'help') return client.send(`**fox** - Рандомная лисичка (Author: Offsis)\n**Использование:** ${config.prefix}fox`);
+    if (args) if (args[0] == 'help') return message.channel.send(`**fox** - Рандомная лисичка (Author: Offsis)\n**Использование:** ${config.prefix}fox`);
     var { body } = await sa.get(`https://randomfox.ca/floof/`)
     var fox = new Discord.RichEmbed()
         .setColor('#fadbc8')
         .setImage(body.image)
         .setFooter(ntf)
-    client.send(fox)
+    message.channel.send(fox)
 }
 exports.help = {
     name: 'fox',

@@ -31,13 +31,13 @@ module.exports.run = async (client, message, args) => {
                 });
             });
         }
-        if (!message.member.hasPermission('BAN_MEMBERS')) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission('BAN_MEMBERS')) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
         let reason = args.slice(1).join(" ");
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         if (!reason) { reason = reasonz[1] }
 
         let bembed = new Discord.RichEmbed()
@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args) => {
 
         rUser.send(bembed);
         message.guild.member(rUser).ban(reason);
-        client.send(bembed)
+        message.channel.send(bembed)
         logschannel.send(bembed)
     } catch (err) {
         let config = require('../config.json');
@@ -62,7 +62,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

@@ -20,13 +20,13 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`${msgs[0]}`)
             .setColor('#e22216')
-        if (!message.member.hasPermission(`KICK_MEMBERS`)) { embed.setDescription(noPerm); return client.send(embed); }
+        if (!message.member.hasPermission(`KICK_MEMBERS`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
         let why = args.slice(1).join(` `);
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         if (!why) { why = reason[1] }
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args) => {
         rUser.send(bembed);
         message.guild.member(rUser).kick(why);
         logschannel.send(bembed)
-        client.send(bembed)
+        message.channel.send(bembed)
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -61,7 +61,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

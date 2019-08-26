@@ -24,13 +24,13 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle(`**${msgs[0]}**`)
             .setColor('RANDOM');
-        if (!message.member.hasPermission("KICK_MEMBERS")) { embed.setDescription(noPerm); return client.send(embed); }
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!message.member.hasPermission("KICK_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let ot = args.slice(1).join(" ");
         embed.setDescription(`**${ot}**`);
         rUser.send(embed);
-        client.send(embed);
+        message.channel.send(embed);
 
     } catch (err) {
         let config = require('../config.json');
@@ -41,7 +41,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

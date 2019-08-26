@@ -30,14 +30,14 @@ module.exports.run = async (client, message, args) => {
             .setFooter(ntf, message.author.avatarURL);
         let fetched = client.active.get(message.guild.id);
 
-        if (!fetched) { embed.setDescription('**Треков не обнаружено** | **No songs**'); return client.send(embed) }
-        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription(msgs[0]); return client.send(embed); }
+        if (!fetched) { embed.setDescription('**Треков не обнаружено** | **No songs**'); return message.channel.send(embed) }
+        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed); }
 
         let userCount = message.member.voiceChannel.members.size;
         let required = Math.ceil(userCount / 2)
 
         if (!fetched.queue[0].voteSkips) fetched.queue[0].voteSkips = [];
-        if (fetched.queue[0].voteSkips.includes(message.member.id)) { embed.setDescription(`${msgs} ${fetched.queue[0].voteSkips.length}/${required}**`); return client.send(embed); }
+        if (fetched.queue[0].voteSkips.includes(message.member.id)) { embed.setDescription(`${msgs} ${fetched.queue[0].voteSkips.length}/${required}**`); return message.channel.send(embed); }
 
         fetched.queue[0].voteSkips.push(message.member.id);
 
@@ -45,12 +45,12 @@ module.exports.run = async (client, message, args) => {
 
         if (fetched.queue[0].voteSkips.length >= required) {
             embed.setDescription(msgs[2]);
-            client.send(embed);
+            message.channel.send(embed);
 
             return fetched.dispatcher.emit('end');
         }
         embed.setDescription(`${msgs[1]} ${fetched.queue[0].voteSkips.length}/${required}**`);
-        return client.send(embed);
+        return message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -60,7 +60,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

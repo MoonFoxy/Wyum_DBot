@@ -10,13 +10,13 @@ exports.run = async (client, message, args) => {
     let ntf = eval('`' + lang.other.ntf + '`');
     let msgs = evaled.split('<>');
     
-    if (args) if (args[0] == 'help') return client.send(`**cat** - Рандомный котик)\n**Использование:** ${config.prefix}cat`);
+    if (args) if (args[0] == 'help') return message.channel.send(`**cat** - Рандомный котик)\n**Использование:** ${config.prefix}cat`);
     var { body } = await sa.get("http://aws.random.cat//meow")
     var cat = new Discord.RichEmbed()
         .setColor('#fadbc8')
         .setImage(body.file)
         .setFooter(ntf)
-    client.send(cat)
+    message.channel.send(cat)
 }
 exports.help = {
     name: "cat",

@@ -20,7 +20,7 @@ module.exports.run = async (client, message, args) => {
         let msgs = evaled.split('<>');
         let actions = lang.actions.split('<>')
         let noMoney = lang.noMoney;
-    if (args) if (args[0] == 'help') return client.send(`**report** - Система репортов на другого человека\n**Использование:** ${config.prefix}report @USER TEXT`);
+    if (args) if (args[0] == 'help') return message.channel.send(`**report** - Система репортов на другого человека\n**Использование:** ${config.prefix}report @USER TEXT`);
     let reportname = 'reports'
     let reportchannel = message.guild.channels.get(client.guild.fetch(`reportsChannel_${message.guild.id}`));
     if(!reportchannel){
@@ -38,7 +38,7 @@ module.exports.run = async (client, message, args) => {
     let rUser = message.guild.member(message.mentions.users.first());
     if (!rUser) rUser = reasonz[1];
     let reason = args.join(" ");
-    if (!reason) { embed.setDescription(`${msgs[1]}`); return client.send(embed); };
+    if (!reason) { embed.setDescription(`${msgs[1]}`); return message.channel.send(embed); };
     let emb = new Discord.RichEmbed()
         .setDescription(`${msgs[0]}`)
         .setColor('#702db6')

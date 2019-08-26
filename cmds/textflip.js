@@ -5,7 +5,7 @@ const { letterTrans } = require('custom-translate');
 
 module.exports.run = async (client, message, args) => {
     let config = require('../config.json');
-    if (args) if (args[0] == 'help') return client.send(`**textflip** - Переворачивает ваш текст (Author:3ефирка❤)\n**Использование:** ${config.prefix}textflip TEXT`);
+    if (args) if (args[0] == 'help') return message.channel.send(`**textflip** - Переворачивает ваш текст (Author:3ефирка❤)\n**Использование:** ${config.prefix}textflip TEXT`);
     var dictionary = {
 
         "a": "ɐ",
@@ -118,7 +118,7 @@ module.exports.run = async (client, message, args) => {
 
     const converted = letterTrans(text, dictionary);
 
-    client.send(converted);
+    message.channel.send(converted);
 
 }
 

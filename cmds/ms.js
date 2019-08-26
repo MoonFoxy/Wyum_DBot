@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
     let ntf = eval('`' + lang.ntf + '`');
     let msgs = evaled.split('<>');
     const minesweeper = new Minesweeper();
-    client.send(`${msgs[0]}!\n${minesweeper.start()}`);
+    message.channel.send(`${msgs[0]}!\n${minesweeper.start()}`);
 
 }
 exports.help = {

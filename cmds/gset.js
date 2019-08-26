@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args) => {
         };
 
         let config = require('../config.json');
-        if (args) if (args[0] == 'help') return client.send(`**set** - Установить точный локальный баланс пользователю\n**Использование:** ${config.prefix}set`);
+        if (args) if (args[0] == 'help') return message.channel.send(`**set** - Установить точный локальный баланс пользователю\n**Использование:** ${config.prefix}set`);
         let embed = new Discord.RichEmbed()
             .setTitle('**Изменение**')
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL)
@@ -21,10 +21,10 @@ module.exports.run = async (client, message, args) => {
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         let res = args.slice(1).join(" ");
 
-        if (!args[0]) { embed.setDescription(`**Укажите пользователя**\n*Пример ${config.prefix}gset @user 500*`); return client.send(embed); };
-        if (!rUser) { embed.setDescription('**Данный пользователь не найден**'); return client.send(embed); }
-        if (!res) { embed.setDescription(`**Укажите Число**\n*Пример ${config.prefix}gset @user 500*`); return client.send(embed); };
-        if (!isNumeric(res)) { embed.setDescription(`**Укажите число правильно**\n*Пример ${config.prefix}gset @user 500*`); return client.send(embed); };
+        if (!args[0]) { embed.setDescription(`**Укажите пользователя**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
+        if (!rUser) { embed.setDescription('**Данный пользователь не найден**'); return message.channel.send(embed); }
+        if (!res) { embed.setDescription(`**Укажите Число**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
+        if (!isNumeric(res)) { embed.setDescription(`**Укажите число правильно**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
         client.profile.set(`coins_${rUser.id}`, Math.floor(parseInt(res)));
         let coins = client.profile.fetch(`coins_${rUser.id}`);
         if (coins === null) client.profile.set(`coins_${rUser.id}`, 1 + Math.floor(parseInt(res)));
@@ -35,7 +35,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`Вы установили ${rUser.user.tag} ${args[1]} монеток!`, `Его баланс составляет ${coins}`)
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL);
 
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -45,7 +45,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`Если ошибка не пропадает обратитесь к ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

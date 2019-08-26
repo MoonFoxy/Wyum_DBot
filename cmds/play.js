@@ -28,8 +28,8 @@ module.exports.run = async (client, message, args) => {
             .setTitle("**Hello World**")
             .setColor('#e22216')
             .setFooter(ntf, message.author.avatarURL);
-        if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return client.send(embed) }
-        if (!args[0]) { embed.setDescription(msgs[1]); return client.send(embed) }
+        if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed) }
+        if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed) }
         let validate = await ytdl.validateURL(args[0]);
         if (!validate) {
             let commandFile = require('./search.js');
@@ -49,7 +49,7 @@ module.exports.run = async (client, message, args) => {
         })
         if (!data.dispatcher) play(client, data);
         else {
-            embed.setColor('fae7b5'); embed.setDescription(`${msgs[2]} ${data.queue[0].songTitle}** ${msgs[3]}`); return client.send(embed);
+            embed.setColor('fae7b5'); embed.setDescription(`${msgs[2]} ${data.queue[0].songTitle}** ${msgs[3]}`); return message.channel.send(embed);
         }
         client.active.set(message.guild.id, data);
         async function play(client, data) {
@@ -87,7 +87,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

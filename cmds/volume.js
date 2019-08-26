@@ -8,7 +8,7 @@ module.exports.run = async (client, message, args) => {
         let embed = new Discord.RichEmbed()
             .setTitle("**Музыка - this is russian**")
             .setColor('#e22216');
-        if (!fetched) { embed.setDescription('**Треков не обнаружено | No music**'); return client.send(embed); };
+        if (!fetched) { embed.setDescription('**Треков не обнаружено | No music**'); return message.channel.send(embed); };
         let config = require('../config.json');
         let getRole = message.mentions.roles.first() || message.guild.roles.find(r => r.id === args[1]);
         let roles = client.guild.fetch(`shop_${message.guild.id}`);
@@ -32,12 +32,12 @@ module.exports.run = async (client, message, args) => {
         let noMoney = lang.noMoney;
 
 
-        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription('**Вы не можете управлять музыкой из другого канала**'); return client.send(embed); };
-        if (isNaN(args[0])) { embed.setDescription(noNum); return client.send(embed); }
+        if (message.member.voiceChannel !== message.guild.me.voiceChannel) { embed.setDescription('**Вы не можете управлять музыкой из другого канала**'); return message.channel.send(embed); };
+        if (isNaN(args[0])) { embed.setDescription(noNum); return message.channel.send(embed); }
 
         fetched.dispatcher.setVolume(args[0] / 100);
 
-        embed.setColor('fae7b5'); embed.setDescription(msgs[0]); return client.send(embed);
+        embed.setColor('fae7b5'); embed.setDescription(msgs[0]); return message.channel.send(embed);
 
 
     } catch (err) {
@@ -49,7 +49,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     };
 

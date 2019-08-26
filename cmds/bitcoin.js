@@ -17,7 +17,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('RANDOM')
             .setDescription(`${msgs[0]}: **${rate}$**`)
             .setTimestamp();
-        client.send(emb);
+        message.channel.send(emb);
         })
         
 
@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

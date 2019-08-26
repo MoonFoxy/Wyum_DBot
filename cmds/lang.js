@@ -8,18 +8,18 @@ module.exports.run = async (client, message, args) => {
         let emb = new Discord.RichEmbed()
             .setColor('#ff0033')
             .setDescription(`:flag_ru: Используйте: ${prefix}lang ru\n:flag_gb: Use ${prefix}lang en`)
-            if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription('Вам нужны права администратора\nYou need administrator rights');return client.send(emb)};
-        if (!args[0]) client.send(emb)
+            if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription('Вам нужны права администратора\nYou need administrator rights');return message.channel.send(emb)};
+        if (!args[0]) message.channel.send(emb)
         if (args[0].toLowerCase() == 'ru') {
             client.guild.set(`lang_${message.guild.id}`, 'ru');
             emb.setDescription('Теперь бот будет работать на **Русском** языке')
-            return client.send(emb);
+            return message.channel.send(emb);
         } else if (args[0].toLowerCase() == 'en') {
             client.guild.set(`lang_${message.guild.id}`, 'en');
             emb.setDescription('Now the bot will work in **English** language')
-            return client.send(emb);
+            return message.channel.send(emb);
         } else {
-            client.send(emb)
+            message.channel.send(emb)
         }
 
 
@@ -33,7 +33,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

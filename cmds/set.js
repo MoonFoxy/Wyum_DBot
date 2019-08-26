@@ -17,7 +17,7 @@ module.exports.run = async (client, message, args) => {
             .setTitle('Set')
             .setFooter(ntf, message.author.avatarURL)
             .setColor('#e22216');
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let coins = client.lprofile.fetch(`coins_${rUser.id}_${rUser.guild.id}`);
         let otherlang = require(`../lang_${client.lang}.json`);
         let olang = otherlang.casino.split('<>');
@@ -33,13 +33,13 @@ module.exports.run = async (client, message, args) => {
         let actions = lang.actions.split('<>')
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
-        if (!message.member.hasPermission("ADMINISTRATOR")) { embed.setDescription('У вас нет прав'); return client.send(embed); }
+        if (!message.member.hasPermission("ADMINISTRATOR")) { embed.setDescription('У вас нет прав'); return message.channel.send(embed); }
 
 
-        if (!args[0]) { embed.setDescription(noUser); return client.send(embed); };
-        if (!rUser) { embed.setDescription(noUser); return client.send(embed); }
-        if (!res) { embed.setDescription(noNum); return client.send(embed); };
-        if (!isNumeric(res)) { embed.setDescription(noNum); return client.send(embed); };
+        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); };
+        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!res) { embed.setDescription(noNum); return message.channel.send(embed); };
+        if (!isNumeric(res)) { embed.setDescription(noNum); return message.channel.send(embed); };
         client.lprofile.set(`coins_${rUser.id}_${rUser.guild.id}`, Math.floor(parseInt(res)));
         if (coins === null) client.lprofile.set(`coins_${rUser.id}_${rUser.guild.id}`, 1 + Math.floor(parseInt(res)));
 
@@ -49,7 +49,7 @@ module.exports.run = async (client, message, args) => {
             .addField(msgs[1])
             .setFooter(ntf, message.author.avatarURL);
 
-        client.send(bembed);
+        message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
@@ -59,7 +59,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 

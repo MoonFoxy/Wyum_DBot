@@ -34,7 +34,7 @@ module.exports.run = async (client, message, args) => {
             .setTitle("**Работа | Job**")
             .setFooter(ntf, message.author.avatarURL)
             .setColor('RANDOM')
-        if (client.profile.fetch(`workCooldown_${userid}`) > Date.now()) { embed.setDescription(msgs[0]);return client.send(embed);}
+        if (client.profile.fetch(`workCooldown_${userid}`) > Date.now()) { embed.setDescription(msgs[0]);return message.channel.send(embed);}
         client.profile.add(`worked_${userid}`, 1);
         if(client.profile.fetch(`worked_${userid}`)>=(client.worklist[curwork].works-1)) client.profile.add(`work_${userid}`,1)
         if(str>=10)str.slice(str.length-1);
@@ -46,7 +46,7 @@ module.exports.run = async (client, message, args) => {
         client.profile.add(`coins_${userid}`, Math.floor(cwork.addCoins));
         client.profile.set(`workCooldown_${userid}`, Date.now()+1000*60*60);
       
-        client.send(embed);
+        message.channel.send(embed);
 
     } catch (err) {
         let config = require('../config.json');
@@ -57,7 +57,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };

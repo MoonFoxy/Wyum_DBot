@@ -24,13 +24,13 @@ module.exports.run = async (client, message, args) => {
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         };
-        if (!args[0] || !isNumeric(Math.floor(parseInt(args[0])))) { embed.setDescription(olang[3]); return client.send(embed); }
-        if (coins <= Math.floor(parseInt(args[0]))) { embed.setDescription(`${noMoney} **${coins}**`); return client.send(embed); }
-        if (Math.floor(parseInt(args[0])) <= 10) { embed.setDescription(`${olang[2]} 10`); return client.send(embed); }
+        if (!args[0] || !isNumeric(Math.floor(parseInt(args[0])))) { embed.setDescription(olang[3]); return message.channel.send(embed); }
+        if (coins <= Math.floor(parseInt(args[0]))) { embed.setDescription(`${noMoney} **${coins}**`); return message.channel.send(embed); }
+        if (Math.floor(parseInt(args[0])) <= 10) { embed.setDescription(`${olang[2]} 10`); return message.channel.send(embed); }
         rand2 + 13;
         if (rand2 > 100) rand2 = 100;
-        if (rand <= rand2) { embed.setDescription(msgs[2]); client.profile.subtract(`coins_${message.author.id}`, Math.floor(parseInt(args[0]))); return client.send(embed); }
-        if (rand > rand2) { embed.setColor('#10e250'); embed.setDescription(msgs[3]); client.send(embed); }
+        if (rand <= rand2) { embed.setDescription(msgs[2]); client.profile.subtract(`coins_${message.author.id}`, Math.floor(parseInt(args[0]))); return message.channel.send(embed); }
+        if (rand > rand2) { embed.setColor('#10e250'); embed.setDescription(msgs[3]); message.channel.send(embed); }
         client.profile.add(`coins_${message.author.id}`, Math.floor(parseInt(args[0]) * 1.5) - Math.floor(parseInt(args[0])));
 
     } catch (err) {
@@ -42,7 +42,7 @@ module.exports.run = async (client, message, args) => {
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
-        client.send(errEmb);
+        message.channel.send(errEmb);
         console.log(err.stack);
     }
 };
