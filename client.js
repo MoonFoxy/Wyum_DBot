@@ -12,7 +12,6 @@ let config = require('./config.json');
 let prefix = config.prefix;
 client.prefix = prefix;
 let adm = config.admin;
-client.cd = config.cooldown;
 const active = new Map();
 client.active = active;
 //--Переменные

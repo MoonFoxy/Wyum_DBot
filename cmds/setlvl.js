@@ -35,6 +35,7 @@ module.exports.run = async (client, message, args) => {
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL);
 
         message.channel.send(bembed);
+        
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)

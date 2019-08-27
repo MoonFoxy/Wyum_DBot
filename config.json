@@ -1,9 +1,19 @@
 {
     "prefix":"w!",
-    "muteRole":"Muted",
-    "voiceMute":"voiceMuted",
-    "bonus":100,
-    "cooldown":5,
-    "admin":"289418396867624960"
 
+    "muteRole":"Muted",
+
+    "voiceMute":"voiceMuted",
+
+    "bonus":100,
+
+    "cooldown":5,
+
+    "admin":[
+        "289418396867624960"
+    ],
+
+    "banid":[
+        "392332189544480770"
+    ]
 }
