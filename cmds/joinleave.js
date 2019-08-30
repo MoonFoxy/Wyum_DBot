@@ -13,6 +13,7 @@ module.exports.run = async (client, message, args) => {
         let noPerm = alert.noPerm;
 
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('RANDOM')
         if (!message.member.hasPermission(`ADMINISTRATOR`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
@@ -35,13 +36,14 @@ module.exports.run = async (client, message, args) => {
             });
         }
         embed.setDescription(msgs[1])
-        embed.setFooter(ntf, message.author.avatarURL)
+        embed.setFooter(ntf, client.user.avatarURL)
         logschannel.send(embed);
         message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

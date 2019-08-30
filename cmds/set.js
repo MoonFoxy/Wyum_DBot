@@ -14,8 +14,9 @@ module.exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.ntf + '`');
         let noUser = lang.noUser;
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle('Set')
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
             .setColor('#e22216');
         if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let coins = client.lprofile.fetch(`coins_${rUser.id}_${rUser.guild.id}`);
@@ -44,16 +45,18 @@ module.exports.run = async (client, message, args) => {
         if (coins === null) client.lprofile.set(`coins_${rUser.id}_${rUser.guild.id}`, 1 + Math.floor(parseInt(res)));
 
         let bembed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor('#10e250')
             .addField(msgs[1])
-            .setFooter(ntf, message.author.avatarURL);
+            .setFooter(ntf, client.user.avatarURL);
 
         message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

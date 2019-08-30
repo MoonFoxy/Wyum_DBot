@@ -9,6 +9,16 @@
 
     "cooldown":5,
 
+    "color":{
+        "black":"#222223",
+        "red":"#F93822",
+        "green":"#00AB84",
+        "yellow":"#FFD700",
+        "purple":"#E10098",
+        "cyan":"#74D1EA",
+        "image":"#F3CFB3"
+    },
+
     "admin":[
         "289418396867624960"
     ],

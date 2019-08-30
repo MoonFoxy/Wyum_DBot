@@ -11,57 +11,74 @@ module.exports.run = async (client, message, args) => {
         let msgs = evaled.split('<>');
         let alert = lang.alert;
         let noPerm = alert.noPerm;
-        
-        let embed = new Discord.RichEmbed()
+
+        let wrong = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}*`)
-            .setColor('#e22216')
-        if (!message.member.hasPermission(`MANAGE_CHANNELS`)) { embed.setDescription(noPerm); return message.channel.send(embed); };
-        message.guild.createChannel(`${msgs[1]}`, { type: 'voice' }).then(channel => {
+            .setColor(config.color.red)
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();
 
-            client.guild.set(`totalUsers_${message.guild.id}`, channel.id)
+        if (!message.member.hasPermission('MANAGE_CHANNELS')) {
+            wrong.setDescription(noPerm);
+            return message.channel.send(wrong);
+        };
 
-            channel.overwritePermissions(message.guild.defaultRole, {
-                VIEW_CHANNEL: true,
-                CONNECT: false,
-            })
-        });
-        let logsname = 'logs'
-            let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
-            if (!logschannel) {
-                await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
-
-                    client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
-                    channel.overwritePermissions(message.guild.defaultRole, {
-                        VIEW_CHANNEL: false,
-                    });
+        let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
+        if (!logschannel) {
+            await message.guild.createChannel('logs', {
+                type: 'text'
+            }).then(channel => {
+                client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
+                channel.overwritePermissions(message.guild.defaultRole, {
+                    VIEW_CHANNEL: false,
                 });
-            }
-        message.guild.createChannel(`${msgs[2]}`, { type: 'voice' }).then(channel => {
+            });
+        };
 
-            client.guild.set(`totalBots_${message.guild.id}`, channel.id)
-
+        message.guild.createChannel(`${msgs[1]}`, {
+            type: 'voice'
+        }).then(channel => {
+            client.guild.set(`totalUsers_${message.guild.id}`, channel.id)
             channel.overwritePermissions(message.guild.defaultRole, {
                 VIEW_CHANNEL: true,
                 CONNECT: false,
             });
-            embed.setColor('#31b8c4');
-            embed.setDescription(`${msgs[3]}`);
-            logschannel.send(embed)
-            return message.channel.send(embed);
         });
+
+        message.guild.createChannel(`${msgs[2]}`, {
+            type: 'voice'
+        }).then(channel => {
+            client.guild.set(`totalBots_${message.guild.id}`, channel.id)
+            channel.overwritePermissions(message.guild.defaultRole, {
+                VIEW_CHANNEL: true,
+                CONNECT: false,
+            });
+        });
+
+        let bembed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
+            .setTitle(`**${msgs[0]}*`)
+            .setColor(config.color.cyan)
+            .setDescription(`${msgs[3]}`)
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();    
+            logschannel.send(bembed)
+            message.channel.send(bembed);
+
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.admin);
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
-            .setColor('#ff2400')
+            .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
         message.channel.send(errEmb);
         console.log(err.stack);
-    }
-
+    };
 };
 module.exports.help = {
     name: `createstats`,

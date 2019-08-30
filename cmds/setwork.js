@@ -6,6 +6,7 @@ module.exports.run = async (client, message, args) => {
         let uadmin = client.profile.fetch(`admin_${message.author.id}`);
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle('**Работа**')
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL)
             .setColor('RANDOM');
@@ -22,6 +23,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle('Ошибка')
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

@@ -28,9 +28,10 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle('Unmute')
             .setColor('#d82d08')
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
             .setThumbnail('https://discordemoji.com/assets/emoji/1132_Ricardo.gif');
         if (!message.member.hasPermission("MANAGE_MESSAGES")) { embed.setDescription(noPerm); return message.channel.send(embed); };
         if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
@@ -71,6 +72,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

@@ -10,6 +10,7 @@ exports.run = async (client, message, args) => {
         let msgs = evaled.split('<>');
         
     let emb = new Discord.RichEmbed()
+        .setAuthor(used, message.author.avatarURL)
         .setDescription(msgs[0])
         .setColor('#10e250')
         .addField(msgs[1], 'https://discord.gg/Z9Tepy3')

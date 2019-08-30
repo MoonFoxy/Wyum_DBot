@@ -12,6 +12,7 @@ module.exports.run = async (client, message, args) => {
 
         if (args) if (args[0] == 'help') return message.channel.send(`**marks** - Значки\n**Использование:** ${config.prefix}marks`);
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor(`#641349`)
             .setTitle(`**${message.author.tag}**`)
@@ -35,6 +36,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

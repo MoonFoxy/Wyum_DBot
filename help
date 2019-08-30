@@ -1,0 +1,12 @@
+CLAN HELP
+
+} else if (args[0].toLowerCase() == 'help') {
+            clanemb.addField("**create**", `${msgs[14]} ${clancost.toLocaleString()}`)
+            clanemb.addField("**help**", `${msgs[15]}`)
+            clanemb.addField("**leave**", `${msgs[16]}`)
+            clanemb.addField("**go**", `${msgs[17]}`)
+            clanemb.addField("**kick**", `${msgs[18]}`);
+            clanemb.addField("**ban**", `${msgs[19]}`)
+            clanemb.addField("**unban**", `${msgs[20]}`)
+            clanemb.addField("**delete**", `${msgs[21]}`)
+

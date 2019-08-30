@@ -33,16 +33,18 @@ module.exports.run = async (client, message, args) => {
         let rand = Math.floor(Math.random() * (max - min) + min)
 
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#10e250')
             .addField(msgs[1], rand)
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
         message.channel.send(embed);
 
     } catch (err) {
        let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

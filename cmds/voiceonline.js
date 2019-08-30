@@ -25,6 +25,7 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
         if (!message.member.hasPermission(`MANAGE_CHANNELS`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
@@ -41,10 +42,11 @@ module.exports.run = async (client, message, args) => {
             })
         });
         let embeds = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#004953')
             .addField(msgs[1], `${voicename} ${message.guild.members.filter(m => m.voiceChannel).size}`)
-            .setFooter(ntf, message.author.avatarURL);
+            .setFooter(ntf, client.user.avatarURL);
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -62,6 +64,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

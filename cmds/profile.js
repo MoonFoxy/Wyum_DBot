@@ -68,6 +68,7 @@ module.exports.run = async (client, message, args) => {
         votes = client.profile.fetch(`votes_${us.id}`);
 
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${us.tag}**`)
             .setThumbnail('https://discordemoji.com/assets/emoji/1438_aSpookyDance.gif')
             .setColor(`#63145a`)
@@ -84,13 +85,14 @@ module.exports.run = async (client, message, args) => {
             .addField(`:military_medal: ${msgs[11]}`, marks, true)
             .addField(`⛏ ${msgs[12]}`,client.worklist[work].name)
             .addField(`:military_medal: ${msgs[13]}`,votes)
-            .setFooter(ntf, message.author.avatarURL);
+            .setFooter(ntf, client.user.avatarURL);
         if (admin == 1) embed.addField(`:spy: Вы администратор бота`, `А другие нет)`, true)
         message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

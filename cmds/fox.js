@@ -4,20 +4,38 @@ const Discord = require('discord.js')
 const sa = require('superagent')
 
 exports.run = async (client, message, args) => {
-    let config = require('../config.json');
-    let lang = require(`../lang_${client.lang}.json`);
-    let evaled = eval('`' + lang.fun.fox + '`');
-    let ntf = eval('`' + lang.other.ntf + '`');
-    let msgs = evaled.split('<>');
-    
-    if (args) if (args[0] == 'help') return message.channel.send(`**fox** - Рандомная лисичка (Author: Offsis)\n**Использование:** ${config.prefix}fox`);
-    var { body } = await sa.get(`https://randomfox.ca/floof/`)
-    var fox = new Discord.RichEmbed()
-        .setColor('#fadbc8')
-        .setImage(body.image)
-        .setFooter(ntf)
-    message.channel.send(fox)
-}
+    try {
+        let config = require('../config.json');
+        let lang = require(`../lang_${client.lang}.json`);
+        let evaled = eval('`' + lang.fun.fox + '`');
+        let ntf = eval('`' + lang.other.ntf + '`');
+        let msgs = evaled.split('<>');
+
+        let { body } = await sa.get("https://randomfox.ca/floof/");
+        let fox = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
+            .setTitle(msgs[2])
+            .setColor(config.color.image)
+            .setImage(body.image)
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();
+
+        message.channel.send(fox);
+
+    } catch (err) {
+        let config = require('../config.json');
+        let a = client.users.get(config.admin);
+        let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
+            .setTitle(`${err[0]}`)
+            .setColor(config.color.red)
+            .addField(`**${err.name}**`, `**${err.message}**`)
+            .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
+            .setTimestamp();
+        message.channel.send(errEmb);
+        console.log(err.stack);
+    };
+};
 exports.help = {
     name: 'fox',
     aliases: ["лиса", "лис", "лисичка", 'лисенок', 'лисонька', 'лисы', 'лисеночки']

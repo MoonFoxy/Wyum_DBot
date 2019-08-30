@@ -6,6 +6,7 @@ module.exports.run = async (client, message, args) => {
         let prefix = config.prefix;
 
         let emb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setColor('#ff0033')
             .setDescription(`:flag_ru: Используйте: ${prefix}lang ru\n:flag_gb: Use ${prefix}lang en`)
             if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription('Вам нужны права администратора\nYou need administrator rights');return message.channel.send(emb)};
@@ -28,6 +29,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

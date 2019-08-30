@@ -1,4 +1,3 @@
-//Завершено
 const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
@@ -9,50 +8,70 @@ module.exports.run = async (client, message, args) => {
         let evaled = eval('`' + lang.moderation.autorole + '`');
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
+        let toUse = alert.toUse;
         let alert = lang.alert;
         let noPerm = alert.noPerm;
-        
-        let embed = new Discord.RichEmbed()
+        let noArgs = alert.noArgs;
+        let noRole = alert.noRole;
+
+        let wrong = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
-            .setColor('#e22216')
+            .setColor(config.color.red)
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();
 
-        if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!message.member.hasPermission('ADMINISTRATOR')) {
+            wrong.setDescription(noPerm);
+            return message.channel.send(wrong);
+        };
 
-        if (!args[0]) { embed.setDescription(`${config.prefix}autorole @role`); return message.channel.send(embed); }
-        let logsname = 'logs'
+        if (!args[0]) {
+            wrong.setDescription(`**${noArgs}**\n*${toUse}${config.prefix}autorole @role*`);
+            return message.channel.send(wrong);
+        };
+       
+        if (!role) {
+            wrong.setDescription(`**${noRole}**\n*${toUse}${config.prefix}autorole @role*`);
+            return message.channel.send(wrong);
+        };
+
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
-            await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
-
+            await message.guild.createChannel('logs', {
+                type: 'text'
+            }).then(channel => {
                 client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
                 channel.overwritePermissions(message.guild.defaultRole, {
                     VIEW_CHANNEL: false,
                 });
             });
-        }
-        if (!role) { embed.setDescription(`${config.prefix}autorole @role`); return message.channel.send(embed); }
-        let guildid = message.guild.id
-        client.guild.set(`autorole_${guildid}`, role.id)
+        };
+
+        client.guild.set(`autorole_${message.guild.id}`, role.id);
+
         let bembed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
-            .setColor('#10e250')
+            .setColor(config.color.green)
             .setDescription(`**${msgs[1]}**`)
-            .setFooter(ntf, message.author.avatarURL);
-        logschannel.send(bembed)
+            .setFooter(ntf, client.user.avatarURL);
+        logschannel.send(bembed);
         message.channel.send(bembed);
+
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.admin);
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
-            .setColor('#ff2400')
+            .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();
         message.channel.send(errEmb);
         console.log(err.stack);
-    }
-
+    };
 };
 module.exports.help = {
     name: "autorole",

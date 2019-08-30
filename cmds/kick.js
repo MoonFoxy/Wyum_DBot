@@ -18,6 +18,7 @@ module.exports.run = async (client, message, args) => {
         let admin = mod.admin.split('<>');
 
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${msgs[0]}`)
             .setColor('#e22216')
         if (!message.member.hasPermission(`KICK_MEMBERS`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
@@ -40,12 +41,13 @@ module.exports.run = async (client, message, args) => {
             });
         }
         let bembed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#e22216')
             .addField(admin, message.author)
             .addField(actions[1], `${rUser}`)
             .addField(reason[0], why)
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
             .setThumbnail('https://discordemoji.com/assets/emoji/1651_BanOVE.gif');
 
         rUser.send(bembed);
@@ -56,6 +58,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

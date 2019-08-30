@@ -23,6 +23,7 @@ module.exports.run = async (client, message, args) => {
     let noMoney = lang.noMoney;
     try {
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#10c7e2')
             .addField(msgs[1], message.guild.name)
@@ -35,13 +36,14 @@ module.exports.run = async (client, message, args) => {
             .addField(msgs[8], message.guild.mfaLevel)
             .addField(msgs[9], message.guild.verificationLevel)
             .setThumbnail(message.guild.iconURL)
-            .setFooter(ntf, message.author.avatarURL);
+            .setFooter(ntf, client.user.avatarURL);
 
         message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

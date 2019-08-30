@@ -11,6 +11,7 @@ module.exports.run = async (client, message, args) => {
         let msgs = evaled.split('<>');
 
         let emb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription("Help")
             .setColor('#f646ff')
             .addField(`**:dollar: ${msgs[0]}**`, '``add`` ``bonus`` ``casino`` ``clan`` ``pay`` ``profile`` ``shop`` ``set`` ``marks`` ``work`` ``groll`` ``lroll``')
@@ -25,6 +26,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

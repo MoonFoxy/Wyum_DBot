@@ -13,6 +13,7 @@ module.exports.run = async (client, message, args) => {
         let noUser = alert.noUser;
 
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
 
@@ -31,6 +32,7 @@ module.exports.run = async (client, message, args) => {
         client.profile.push(`liked_${message.author.id}`, `${rUser.id}`);
         likes = client.profile.fetch(`likes_${rUser.id}`);
         let bembed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`:heart: :heart: :heart: `)
             .setColor('#10e250')
             .setDescription(`${rUser} ${msgs[4]} ${likes}**`)
@@ -39,6 +41,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

@@ -11,43 +11,63 @@ module.exports.run = async (client, message, args) => {
         let msgs = evaled.split('<>');
         let alert = lang.alert;
         let noPerm = alert.noPerm;
-        
+
         let ch = message.mentions.channels.first();
 
-        let embed = new Discord.RichEmbed()
+        let wrong = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
-            .setColor('#e22216')
+            .setColor(config.color.red)
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();
 
-        if (!message.member.hasPermission(`MANAGE_CHANNELS`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!message.member.hasPermission('MANAGE_CHANNELS')) {
+            wrong.setDescription(noPerm);
+            return message.channel.send(wrong);
+        };
 
-        if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
+        if (!args[0]) {
+            wrong.setDescription(msgs[1]);
+            return message.channel.send(wrong);
+        };
 
-        if (!ch) { embed.setDescription(msgs[1]); return message.channel.send(embed); }
+        if (!ch) {
+            wrong.setDescription(msgs[1]);
+            return message.channel.send(wrong);
+        };
+
         client.guild.set(`cmdchannel_${message.guild.id}`, ch.id);
-        let bembed = new Discord.RichEmbed()
-            .setTitle(`**${msgs[0]}**`)
-            .setColor('#10e250')
-            .setDescription(msgs[2])
-            .setFooter(ntf, message.author.avatarURL);
-        let logsname = 'logs'
+
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
-            await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
+            await message.guild.createChannel('logs', {
+                type: 'text'
+            }).then(channel => {
 
                 client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
                 channel.overwritePermissions(message.guild.defaultRole, {
                     VIEW_CHANNEL: false,
                 });
             });
-        }
+        };
+    
+        let bembed = new Discord.RichEmbed()
+        .setAuthor(used, message.author.avatarURL)
+        .setTitle(`**${msgs[0]}**`)
+        .setColor(config.color.green)
+        .setDescription(msgs[2])
+        .setFooter(ntf, client.user.avatarURL)
+        .setTimestamp();
         logschannel.send(bembed)
         message.channel.send(bembed);
+
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.admin);
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
-            .setColor('#ff2400')
+            .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();

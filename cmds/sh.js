@@ -23,8 +23,9 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
     let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[0])
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
             .setColor('#e22216');
     if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed); };
     if (!args[1]) {

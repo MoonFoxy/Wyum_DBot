@@ -22,10 +22,11 @@ module.exports.run = async (client, message, args) => {
     let admin = lang.admin.split('<>')
     let noMoney = lang.noMoney;
     let emb = new Discord.RichEmbed()
+        .setAuthor(used, message.author.avatarURL)
         .setDescription(msgs[0])
         .setColor('#ff8148')
         .addField(`Pffagarvvbw2q5td`, `**${client.ping}**`)
-        .setFooter(ntf, message.author.avatarURL)
+        .setFooter(ntf, client.user.avatarURL)
         .setThumbnail('https://discordemoji.com/assets/emoji/2366_Loading_Pixels.gif');
     message.channel.send(emb);
 };

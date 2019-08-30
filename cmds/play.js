@@ -25,9 +25,10 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle("**Hello World**")
             .setColor('#e22216')
-            .setFooter(ntf, message.author.avatarURL);
+            .setFooter(ntf, client.user.avatarURL);
         if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed) }
         if (!args[0]) { embed.setDescription(msgs[1]); return message.channel.send(embed) }
         let validate = await ytdl.validateURL(args[0]);
@@ -82,6 +83,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

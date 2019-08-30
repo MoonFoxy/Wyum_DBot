@@ -14,8 +14,9 @@ module.exports.run = async (client, message, args) => {
         let bb = lang.mute.split('<>')
         let ntf = eval('`' + lang.ntf + '`');
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${bb[0]}**`)
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
             .setColor('#e22216')
             .setThumbnail('https://discordemoji.com/assets/emoji/1414_FeelsAbdulMan.gif');
         let noUser = lang.noUser;
@@ -83,6 +84,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

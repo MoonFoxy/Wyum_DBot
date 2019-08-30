@@ -26,18 +26,33 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor('#e22216');
-        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!message.member.hasPermission("BAN_MEMBERS")) {
+            embed.setDescription(noPerm);
+            return message.channel.send(embed);
+        }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
-        if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
-        if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
+        if (!args[0]) {
+            embed.setDescription(noUser);
+            return message.channel.send(embed);
+        }
+        if (!rUser) {
+            embed.setDescription(noUser);
+            return message.channel.send(embed);
+        }
         let warns = client.lprofile.fetch(`warns_${rUser.id}_${rUser.guild.id}`);
-        if (warns <= 0) { embed.setDescription(msgs[0]); embed.setDescription(msgs[1]); return message.channel.send(embed); }
+        if (warns <= 0) {
+            embed.setDescription(msgs[0]);
+            embed.setDescription(msgs[1]);
+            return message.channel.send(embed);
+        }
         client.lprofile.subtract(`warns_${rUser.id}_${rUser.guild.id}`, 1);
         let embeds = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#25ca85')
             .addField(admin, message.author.username)
@@ -46,7 +61,9 @@ module.exports.run = async (client, message, args) => {
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
-            await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
+            await message.guild.createChannel(logsname, {
+                type: 'text'
+            }).then(channel => {
 
                 client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
                 channel.overwritePermissions(message.guild.defaultRole, {
@@ -60,6 +77,7 @@ module.exports.run = async (client, message, args) => {
         let config = require('../config.json');
         let a = client.users.get(config.admin)
         let errEmb = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

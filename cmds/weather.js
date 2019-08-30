@@ -10,6 +10,7 @@ module.exports.run = async (client, message, args, ops) => {
         var location = result[0].location;
 
         const embed = new Discord.RichEmbed()
+            .setAuthor(used, message.author.avatarURL)
             .setDescription(`**${current.skytext}**`)
             .setAuthor(`Город: ${current.observationpoint}`)
             .setThumbnail(current.imageUrl)
@@ -20,7 +21,7 @@ module.exports.run = async (client, message, args, ops) => {
             .addField('Ощущается как:', `${current.feelslike} градусов`)
             .addField('🌬 | Ветер:', current.winddisplay)
             .addField('💧 | Влажность:', `${current.humidity}%`)
-            .setFooter(ntf, message.author.avatarURL)
+            .setFooter(ntf, client.user.avatarURL)
 
         message.channel.send({ embed });
     })

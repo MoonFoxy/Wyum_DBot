@@ -70,8 +70,20 @@ client.on('ready', () => {
     let statuses = [`${prefix}help`, `${client.guilds.size} servers`, `${client.users.size} users`, "Bot by MoonFoxy"];
     let activestatus = statuses[Math.floor(Math.random() * statuses.length)]
     setInterval(function () {
-        client.user.setPresence({ game: { name: activestatus, status: 'online', type: 'STREAMING', url: "https://www.twitch.tv/m0onf0xy" } });
-        client.user.setPresence({ activity: { name: activestatus }, status: 'online' });
+        client.user.setPresence({
+            game: {
+                name: activestatus,
+                status: 'online',
+                type: 'STREAMING',
+                url: "https://www.twitch.tv/m0onf0xy"
+            }
+        });
+        client.user.setPresence({
+            activity: {
+                name: activestatus
+            },
+            status: 'online'
+        });
         dbl.postStats(client.guilds.size);
     }, 15000);
 
@@ -85,7 +97,9 @@ client.on('ready', () => {
                 let guildid = mutes.fetch(`guild_${userid}`);
                 let guild = client.guilds.get(guildid);
                 let member;
-                if (guild) { member = guild.members.get(userid); }
+                if (guild) {
+                    member = guild.members.get(userid);
+                }
                 if (!member) continue;
                 let muteRole = member.guild.roles.find(r => r.name === config.muteRole);
                 if (!muteRole) continue;
@@ -110,7 +124,7 @@ client.on('ready', () => {
 //Реакция на сообщения
 client.on('message', async message => {
 
-    if (message.author.id == config.banid) return ;
+    if (message.author.id == config.banid) return;
     if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
     if (message.guild.name != 'Discord Bot List') console.log(`${message.author.id} || ${message.guild.id} ||${message.guild.name} | ${message.channel.id} | ${message.channel.name} | [${message.author.tag}] | ${message.content}`)
     let clientvmsgs = clientstats.fetch(`viewMessages`);
@@ -122,17 +136,17 @@ client.on('message', async message => {
     if (message.author.id == client.user.id) clientstats.add('sendMessages', 1);
     if (message.author.bot) return;
     if (message.channel.type == 'dm') return;
-//--Реакция на сообщения
+    //--Реакция на сообщения
 
 
-//Сервера
- let cmdchannel = guild_$.fetch(`cmdchannel_${guildid}`);
- let blockInvites = guild_$.fetch(`blockInvites_${guildid}`);
- let lang = guild_$.fetch(`lang_${guildid}`);
- client.lang = lang;
-//--Сервера
+    //Сервера
+    let cmdchannel = guild_$.fetch(`cmdchannel_${guildid}`);
+    let blockInvites = guild_$.fetch(`blockInvites_${guildid}`);
+    let lang = guild_$.fetch(`lang_${guildid}`);
+    client.lang = lang;
+    //--Сервера
 
-//Профиль
+    //Профиль
     client.sendcur = async function (usr, msg) {
         let usrz = await client.users.get(`${usr}`)
         if (usrz) await usrz.send(msg);
@@ -197,21 +211,70 @@ client.on('message', async message => {
     worked = null;
 
     work = eval('`' + require(`./lang_${lang}.json`).economy.worklist + '`').split('<>');
-    client.worklist = [{ name: work[0], addCoins: 100, works: 5 },
-                    { name: work[1], addCoins: 500, works: 15 },
-                    { name: work[2], addCoins: 3000, works: 30 },
-                    { name: work[3], addCoins: 5000, works: 55 },
-                    { name: work[4], addCoins: 8500, works: 80 },
-                    { name: work[5], addCoins: 15000, works: 110 },
-                    { name: work[6], addCoins: 30000, works: 150 },
-                    { name: work[7], addCoins: 50000, works: 200 },
-                    { name: work[8], addCoins: 120000, works: 290 },
-                    { name: work[9], addCoins: 300000, works: 400 },
-                    { name: work[10], addCoins: 500000, works: 600 },
-                    { name: work[11], addCoins: 750000, works: 1000 }]
-//--Профиль
+    client.worklist = [{
+            name: work[0],
+            addCoins: 100,
+            works: 5
+        },
+        {
+            name: work[1],
+            addCoins: 500,
+            works: 15
+        },
+        {
+            name: work[2],
+            addCoins: 3000,
+            works: 30
+        },
+        {
+            name: work[3],
+            addCoins: 5000,
+            works: 55
+        },
+        {
+            name: work[4],
+            addCoins: 8500,
+            works: 80
+        },
+        {
+            name: work[5],
+            addCoins: 15000,
+            works: 110
+        },
+        {
+            name: work[6],
+            addCoins: 30000,
+            works: 150
+        },
+        {
+            name: work[7],
+            addCoins: 50000,
+            works: 200
+        },
+        {
+            name: work[8],
+            addCoins: 120000,
+            works: 290
+        },
+        {
+            name: work[9],
+            addCoins: 300000,
+            works: 400
+        },
+        {
+            name: work[10],
+            addCoins: 500000,
+            works: 600
+        },
+        {
+            name: work[11],
+            addCoins: 750000,
+            works: 1000
+        }
+    ]
+    //--Профиль
 
-//Проголосовал
+    //Проголосовал
     let atag = message.author.tag;
     dbl.hasVoted(`${message.author.id}`).then(async voteds => {
         if (voteds) {
@@ -225,9 +288,9 @@ client.on('message', async message => {
             };
         };
     });
-//--Проголосовал
+    //--Проголосовал
 
-//Локальный профиль
+    //Локальный профиль
     let lcoins = lprofile.fetch(`coins_${userid}_${guildid}`);
     if (lcoins === null) lprofile.set(`coins_${userid}_${guildid}`, 1);
     lcoins = null;
@@ -235,7 +298,7 @@ client.on('message', async message => {
     let lwarns = lprofile.fetch(`warns_${userid}_${guildid}`);
     if (lwarns === null) lprofile.set(`warns_${userid}_${guildid}`, 0);
     lwarns = null;
-    
+
     client.profile.add(`coins_${userid}`, 1);
     client.lprofile.add(`coins_${userid}_${guildid}`, 1);
     client.profile.add(`xp_${userid}`, 1);
@@ -248,7 +311,7 @@ client.on('message', async message => {
         profile.add(`lvl_${userid}`, 1);
     }
     xp = null
-//--Локальный профиль
+    //--Локальный профиль
 
     //Значки
     if (marks) {
@@ -272,7 +335,9 @@ client.on('message', async message => {
         if (!marks.includes('💒') && partner) addMark('💒');
         if (!marks.includes('🏳️‍🌈') && message.content.toLowerCase() == "я гей") addMark('🏳️‍🌈');
         if (!marks.includes('💥') && message.content.toLowerCase() == "я люблю лисичек") addMark('💥');
-        if (marks.indexOf('undefined') != -1) { client.profile.delete(`marks_${message.author.id}`) }
+        if (marks.indexOf('undefined') != -1) {
+            client.profile.delete(`marks_${message.author.id}`)
+        }
         let mm = null;
         //--Значки
     }
@@ -336,7 +401,11 @@ client.on('message', async message => {
             if (!message.member.hasPermission('MANAGE_MESSAGES')) {
                 let embed = new Discord.RichEmbed()
                     .setColor('#E22216')
-                if (message.channel != cmdch) { message.delete(5 * 1000); embed.setDescription(`Использование команд только в <#${cmdchannel}>`); return message.channel.send(embed).then(msg => msg.delete(5 * 1000));; }
+                if (message.channel != cmdch) {
+                    message.delete(5 * 1000);
+                    embed.setDescription(`Использование команд только в <#${cmdchannel}>`);
+                    return message.channel.send(embed).then(msg => msg.delete(5 * 1000));;
+                }
                 cmdch = null;
                 embed = null;
             };
@@ -349,7 +418,10 @@ client.on('message', async message => {
         if (command != `${prefix}lang`) {
             return message.channel.send(emb)
         } else {
-            if(!message.member.hasPermission('ADMINISTRATOR')){emb.setDescription("Вам нужны права администратора\nYou need administrator rights");return message.channel.send(emb)};
+            if (!message.member.hasPermission('ADMINISTRATOR')) {
+                emb.setDescription("Вам нужны права администратора\nYou need administrator rights");
+                return message.channel.send(emb)
+            };
             if (args[0].toLowerCase() == 'ru') {
                 guild_$.set(`lang_${guildid}`, 'ru');
                 emb.setDescription("Теперь бот будет работать на **Русском** языке")
@@ -467,8 +539,16 @@ client.on('guildMemberAdd', (member) => {
     let users = client.channels.get(totalUsers);
     let bots = client.channels.get(totalBots);
     if (users && bots) {
-        users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => { if (err) { member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`) } })
-        bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => { if (err) { member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`) } })
+        users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => {
+            if (err) {
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
+            }
+        })
+        bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => {
+            if (err) {
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
+            }
+        })
     }
     guildid, ejoin, joinChannel, role, muteRole, muted, wmsg, totalUsers, totalBots, users, bots = null;
 });
@@ -488,8 +568,16 @@ client.on('guildMemberRemove', (member) => {
     let users = client.channels.get(totalUsers);
     let bots = client.channels.get(totalBots);
     if (users && bots) {
-        users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => { if (err) { member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`) } })
-        bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => { if (err) { member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`) } })
+        users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => {
+            if (err) {
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
+            }
+        })
+        bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => {
+            if (err) {
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
+            }
+        })
     }
     guildid, ejoin, joinChannel, totalUsers, totalBots, users, bots = null;
 });
@@ -515,7 +603,9 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     let ch = client.channels.get(client.guild.fetch(`roomCreator_${guildid}`))
     client.ch = ch;
     if (newMember.voiceChannel && ch && newMember.voiceChannel.id == ch.id) {
-        newMember.guild.createChannel(`${newMember.displayName} Room`, { type: 'voice' }).catch(error => error)
+        newMember.guild.createChannel(`${newMember.displayName} Room`, {
+                type: 'voice'
+            }).catch(error => error)
             .then(channel => {
                 deleteEmptyChannelAfterDelay(channel);
                 channel.setParent(ch.parentID)
