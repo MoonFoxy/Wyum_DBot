@@ -91,6 +91,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "add",
-    aliases: ["добавить"]
+    name: 'add',
+    aliases: ['добавить']
 };

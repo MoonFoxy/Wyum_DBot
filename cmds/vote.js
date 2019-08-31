@@ -28,5 +28,5 @@ exports.run = async (client, message, args) => {
 }
 exports.help = {
     name: 'vote',
-    aliases: ["v", 'голосование']
+    aliases: ['v', 'голосование']
 }

@@ -106,14 +106,14 @@ module.exports.run = async (client, message, args) => {
 
 
         } else if (args[0].toLowerCase() == 'help') {
-            clanemb.addField("**create**", `${msgs[14]} ${clancost.toLocaleString()}`)
-            clanemb.addField("**help**", `${msgs[15]}`)
-            clanemb.addField("**leave**", `${msgs[16]}`)
-            clanemb.addField("**go**", `${msgs[17]}`)
-            clanemb.addField("**kick**", `${msgs[18]}`);
-            clanemb.addField("**ban**", `${msgs[19]}`)
-            clanemb.addField("**unban**", `${msgs[20]}`)
-            clanemb.addField("**delete**", `${msgs[21]}`)
+            clanemb.addField('**create**', `${msgs[14]} ${clancost.toLocaleString()}`)
+            clanemb.addField('**help**', `${msgs[15]}`)
+            clanemb.addField('**leave**', `${msgs[16]}`)
+            clanemb.addField('**go**', `${msgs[17]}`)
+            clanemb.addField('**kick**', `${msgs[18]}`);
+            clanemb.addField('**ban**', `${msgs[19]}`)
+            clanemb.addField('**unban**', `${msgs[20]}`)
+            clanemb.addField('**delete**', `${msgs[21]}`)
             message.channel.send(clanemb)
         } else if (args[0].toLowerCase() == 'ban') {
             let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[1]));
@@ -179,7 +179,7 @@ module.exports.run = async (client, message, args) => {
                 return message.channel.send(clanemb);
             }
             client.clan.delete(`${clan}_bans_${rUser.id}`);
-            clanemb.setDescription("Успешно/Succes!");
+            clanemb.setDescription('Успешно/Succes!');
             return message.channel.send(clanemb);
 
         } else if (args[0].toLowerCase() == 'kick') {
@@ -241,7 +241,7 @@ module.exports.run = async (client, message, args) => {
 
         } else if (args[0].toLowerCase() == 'info') {
             if (!args[1]) {
-                clanemb.setDescription("Укажите название клана/Enter the name of the clan");
+                clanemb.setDescription('Укажите название клана/Enter the name of the clan');
                 return message.channel.send(clanemb);
             }
             if (client.clan.fetch(`${clanname}_money`) == null) {
@@ -272,6 +272,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "clan",
-    aliases: ["клан"]
+    name: 'clan',
+    aliases: ['клан']
 };

@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 const ytdl = require('ytdl-core');
 
 module.exports.run = async (client, message, args) => {
@@ -26,7 +26,7 @@ module.exports.run = async (client, message, args) => {
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Hello World**")
+            .setTitle('**Hello World**')
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL);
         if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed) }
@@ -95,6 +95,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "play",
-    aliases: ["музыка", 'плей', 'музло']
+    name: 'play',
+    aliases: ['музыка', 'плей', 'музло']
 };

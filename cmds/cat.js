@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
 
-        let { body } = await sa.get("http://aws.random.cat//meow");
+        let { body } = await sa.get('http://aws.random.cat//meow');
 
         let cat = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
@@ -36,6 +36,6 @@ exports.run = async (client, message, args) => {
     };
 };
 exports.help = {
-    name: "cat",
-    aliases: ["кошка", "кот"]
+    name: 'cat',
+    aliases: ['кошка', 'кот']
 }

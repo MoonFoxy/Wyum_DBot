@@ -60,6 +60,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "bonus",
-    aliases: ["b", "бонус", "$"]
+    name: 'bonus',
+    aliases: ['b', 'бонус', '$']
 };

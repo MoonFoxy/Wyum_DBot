@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
 
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Работа | Job**")
+            .setTitle('**Работа | Job**')
             .setFooter(ntf, client.user.avatarURL)
             .setColor('RANDOM')
 
@@ -56,6 +56,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "work",
-    aliases: ["работа", "работать", "w"]
+    name: 'work',
+    aliases: ['работа', 'работать', 'w']
 };

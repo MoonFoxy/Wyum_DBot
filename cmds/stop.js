@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -24,7 +24,7 @@ module.exports.run = async (client, message, args) => {
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**sus**")
+            .setTitle('**sus**')
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL);
         if (!message.member.voiceChannel) { embed.setDescription(msgs[0]); return message.channel.send(embed); }
@@ -49,6 +49,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "stop",
-    aliases: ["астанавитесь", 'стоп']
+    name: 'stop',
+    aliases: ['астанавитесь', 'стоп']
 };

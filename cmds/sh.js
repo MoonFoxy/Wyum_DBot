@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = require("discord.js");
+const Discord = require('discord.js');
 const shorten = require('isgd')
 
 module.exports.run = async (client, message, args) => {
@@ -47,6 +47,6 @@ module.exports.run = async (client, message, args) => {
 }
 
 module.exports.help = {
-    name: "sh",
-    aliases: ["сократитьссылку", 'вирус']
+    name: 'sh',
+    aliases: ['сократитьссылку', 'вирус']
 }

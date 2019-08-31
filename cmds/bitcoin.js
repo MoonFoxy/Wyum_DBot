@@ -36,6 +36,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "bitcoin",
-    aliases: ["bitcoen"]
+    name: 'bitcoin',
+    aliases: ['bitcoen']
 };

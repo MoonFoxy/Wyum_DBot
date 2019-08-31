@@ -124,6 +124,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "casino",
-    aliases: ["c", "cs", "cas", "казино"]
+    name: 'casino',
+    aliases: ['c', 'cs', 'cas', 'казино']
 };

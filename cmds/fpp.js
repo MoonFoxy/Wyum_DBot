@@ -2,11 +2,11 @@ const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
-        if (message.guild.id != "596463761918001211") return;
+        if (message.guild.id != '596463761918001211') return;
         if (!message.member.voiceChannel) return message.channel.send(`**${message.author} зайдите в голосовой канал**`);
-        let pid = "601128457522511927";
+        let pid = '601128457522511927';
         if (message.member.voiceChannel.name.toLowerCase().indexOf('duo') == -1 && message.member.voiceChannel.name.toLowerCase().indexOf('squad') == -1 && message.member.voiceChannel.parentID != pid) return message.channel.send(`**${message.author} Зайдите в предназначеный для этого канал**`)
-        let msg = args.join(" ");
+        let msg = args.join(' ');
         if (!msg) return message.channel.send('**Использование !fpp ADR MAP**');
         let kma = message.member.voiceChannel.members.map(m => m.id)
         let num = parseInt(message.member.voiceChannel.userLimit - kma.length);
@@ -24,10 +24,10 @@ module.exports.run = async (client, message, args) => {
         message.member.voiceChannel.createInvite().then((invite) => {
             lnk = invite.code
 
-            let color = "#0B0B0B";
+            let color = '#0B0B0B';
             let atach = `https://cdn.glitch.com/1bb20dac-4257-4088-b7ef-824d51cd951a%2F${num}FPP.png?v=1563391381394`
             if (message.member.voiceChannel.parentID == pid) {
-                color = "#ffff33"
+                color = '#ffff33'
                 atach = `https://cdn.glitch.com/1bb20dac-4257-4088-b7ef-824d51cd951a%2Fpremium.png?v=1563391412437`
             };
             if (!atach) return;
@@ -48,6 +48,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "fpp",
-    aliases: ["f"]
+    name: 'fpp',
+    aliases: ['f']
 };

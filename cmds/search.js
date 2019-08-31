@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 let search = require('yt-search');
 
 module.exports.run = async (client, message, args) => {
@@ -36,6 +36,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "search",
-    aliases: ["поиск", 'искать']
+    name: 'search',
+    aliases: ['поиск', 'искать']
 };

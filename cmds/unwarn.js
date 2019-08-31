@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -29,7 +29,7 @@ module.exports.run = async (client, message, args) => {
             .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor('#e22216');
-        if (!message.member.hasPermission("BAN_MEMBERS")) {
+        if (!message.member.hasPermission('BAN_MEMBERS')) {
             embed.setDescription(noPerm);
             return message.channel.send(embed);
         }
@@ -57,7 +57,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('#25ca85')
             .addField(admin, message.author.username)
             .addField(msgs[2], `${rUser.user.username}`)
-            .addField("Количество предупрежденией | Warns:", `${warns}/3`);
+            .addField('Количество предупрежденией | Warns:', `${warns}/3`);
         let logsname = 'logs'
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -89,6 +89,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "unwarn",
-    aliases: ["снятьварн", 'снятьпредупреждение']
+    name: 'unwarn',
+    aliases: ['снятьварн', 'снятьпредупреждение']
 };

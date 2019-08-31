@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
             .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor(config.color.cyan)
-            .setThumbnail("https://discordemoji.com/assets/emoji/2278_PinkCatSpin.gif")
+            .setThumbnail('https://discordemoji.com/assets/emoji/2278_PinkCatSpin.gif')
             .addField(`⭕ | ${msgs[1]}`, `${(process.memoryUsage().heapUsed / (1000 * 1000)).toFixed(2)} MB`, true)
             .addField(`🕑 | ${msgs[2]}`, `${duration}`, true)
             .addField(`👥 | ${msgs[3]}`, `${client.users.size.toLocaleString()}`, true)
@@ -50,6 +50,6 @@ module.exports.run = async (client, message, args) => {
 };
 
 module.exports.help = {
-    name: "botstats",
-    aliases: ["bs", "статистикабота", "бс"]
+    name: 'botstats',
+    aliases: ['bs', 'статистикабота', 'бс']
 }

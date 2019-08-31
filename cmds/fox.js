@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
 
-        let { body } = await sa.get("https://randomfox.ca/floof/");
+        let { body } = await sa.get('https://randomfox.ca/floof/');
         let fox = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
             .setTitle(msgs[2])
@@ -38,5 +38,5 @@ exports.run = async (client, message, args) => {
 };
 exports.help = {
     name: 'fox',
-    aliases: ["лиса", "лис", "лисичка", 'лисенок', 'лисонька', 'лисы', 'лисеночки']
+    aliases: ['лиса', 'лис', 'лисичка', 'лисенок', 'лисонька', 'лисы', 'лисеночки']
 }

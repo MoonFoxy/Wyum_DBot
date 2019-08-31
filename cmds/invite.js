@@ -20,5 +20,5 @@ exports.run = async (client, message, args) => {
 }
 exports.help = {
     name: 'invite',
-    aliases: ["in", 'пригласить', 'приглашение', 'приглашающий', 'приглашения']
+    aliases: ['in', 'пригласить', 'приглашение', 'приглашающий', 'приглашения']
 }

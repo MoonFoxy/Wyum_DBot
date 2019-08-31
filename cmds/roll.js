@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
   
@@ -55,6 +55,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "roll",
-    aliases: ["ролл", 'роль', 'рулетка', 'случайноечисло']
+    name: 'roll',
+    aliases: ['ролл', 'роль', 'рулетка', 'случайноечисло']
 };

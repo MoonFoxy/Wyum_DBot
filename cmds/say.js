@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     let config = require('../config.json');
@@ -27,12 +27,12 @@ module.exports.run = async (client, message, args) => {
         .setFooter(ntf, client.user.avatarURL)
         .setColor('#e22216')
         .setThumbnail('https://discordemoji.com/assets/emoji/1414_FeelsAbdulMan.gif');
-    let clientmessage = args.join(" ");
+    let clientmessage = args.join(' ');
     if (!clientmessage) {return}
     message.delete().catch();
     message.channel.send(clientmessage);
 };
 module.exports.help = {
-    name: "say",
-    aliases: ["сказать", 'скажи', 'поговори', 'говори']
+    name: 'say',
+    aliases: ['сказать', 'скажи', 'поговори', 'говори']
 };

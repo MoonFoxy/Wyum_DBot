@@ -67,6 +67,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "lroll",
-    aliases: ["лролл", 'лроль', 'лрулетка']
+    name: 'lroll',
+    aliases: ['лролл', 'лроль', 'лрулетка']
 };

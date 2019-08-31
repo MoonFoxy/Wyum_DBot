@@ -1,9 +1,9 @@
-const Discord = require("discord.js");
-const weather = require("weather-js");
+const Discord = require('discord.js');
+const weather = require('weather-js');
 
 module.exports.run = async (client, message, args, ops) => {
 //    if(message.guild.id == ops.bl) return;
-    weather.find({ search: args.join(" "), degreeType: 'C' }, function(err, result) {
+    weather.find({ search: args.join(' '), degreeType: 'C' }, function(err, result) {
         if (err) message.channel.send(err);
 
         var current = result[0].current;
@@ -27,6 +27,6 @@ module.exports.run = async (client, message, args, ops) => {
     })
 }
 module.exports.help = {
-    name: "weather",
-    aliases: ["wt", "погода"]
+    name: 'weather',
+    aliases: ['wt', 'погода']
 }

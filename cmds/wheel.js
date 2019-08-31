@@ -1,11 +1,11 @@
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
+        let rand = Math.floor(Math.random() * (100 - 0) + 0);
+        let rand2 = Math.floor(Math.random() * (100 - 10) + 10);
         let config = require('../config.json');
         let lang = require(`../lang_${client.lang}.json`);
-        let otherlang = require(`../lang_${client.lang}.json`);
-        let olang = otherlang.casino.split('<>');
         let evaled = eval('`' + lang.fun.wheel + '`');
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
@@ -111,6 +111,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "wheel",
-    aliases: ["колеса", "таблетки", "якубович"]
+    name: 'wheel',
+    aliases: ['колеса', 'таблетки', 'якубович']
 };

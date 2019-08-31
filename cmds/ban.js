@@ -63,7 +63,7 @@ module.exports.run = async (client, message, args) => {
             .setAuthor(used, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor(config.color.red)
-            .setThumbnail("https://discordemoji.com/assets/emoji/1651_BanOVE.gif")
+            .setThumbnail('https://discordemoji.com/assets/emoji/1651_BanOVE.gif')
             .addField(admin, message.author)
             .addField(actions[0], `${rUser}`)
             .addField(why[0], reason)
@@ -89,6 +89,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "ban",
-    aliases: ["бан"]
+    name: 'ban',
+    aliases: ['бан']
 };

@@ -1,7 +1,7 @@
 
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -33,7 +33,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('#d82d08')
             .setFooter(ntf, client.user.avatarURL)
             .setThumbnail('https://discordemoji.com/assets/emoji/1132_Ricardo.gif');
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) { embed.setDescription(noPerm); return message.channel.send(embed); };
+        if (!message.member.hasPermission('MANAGE_MESSAGES')) { embed.setDescription(noPerm); return message.channel.send(embed); };
         if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
         if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
         let role = message.guild.roles.find(r => r.name === config.muteRole);
@@ -83,6 +83,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "unmute",
-    aliases: ["снятьмут"]
+    name: 'unmute',
+    aliases: ['снятьмут']
 };

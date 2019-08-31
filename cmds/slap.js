@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     let config = require('../config.json');
@@ -33,6 +33,6 @@ module.exports.run = async (client, message, args) => {
     message.channel.send(emb)
 };
 module.exports.help = {
-    name: "slap",
-    aliases: ["ударить", 'шлепнуть', 'шлеп']
+    name: 'slap',
+    aliases: ['ударить', 'шлепнуть', 'шлеп']
 };

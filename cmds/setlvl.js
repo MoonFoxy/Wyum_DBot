@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
         if (uadmin != 1) return;
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-        let res = args.slice(1).join(" ");
+        let res = args.slice(1).join(' ');
 
         if (!args[0]) { embed.setDescription(`**Укажите пользователя**\n*Пример ${config.prefix}setlvl @user 500*`); return message.channel.send(embed); };
         if (!rUser) { embed.setDescription('**Данный пользователь не найден**'); return message.channel.send(embed); }
@@ -31,7 +31,7 @@ module.exports.run = async (client, message, args) => {
 
         let bembed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Изменение уровня**")
+            .setTitle('**Изменение уровня**')
             .setColor('#10e250')
             .setDescription(`Вы установили ${rUser.user.tag} ${args[1]} лвлов!`)
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL);
@@ -54,6 +54,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "setlvl",
-    aliases: ["установитьуровень"]
+    name: 'setlvl',
+    aliases: ['установитьуровень']
 };

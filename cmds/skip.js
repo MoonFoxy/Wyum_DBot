@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -26,7 +26,7 @@ module.exports.run = async (client, message, args) => {
         let x = Math.floor(args[0] - 1);
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Hello world**")
+            .setTitle('**Hello world**')
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL);
         let fetched = client.active.get(message.guild.id);
@@ -68,6 +68,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "skip",
-    aliases: ["пропуск", 'скип', 'хуита', 'пропустить']
+    name: 'skip',
+    aliases: ['пропуск', 'скип', 'хуита', 'пропустить']
 };

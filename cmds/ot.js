@@ -1,5 +1,5 @@
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 module.exports.run = async (client, message, args) => {
     try {
         let config = require('../config.json');
@@ -25,10 +25,10 @@ module.exports.run = async (client, message, args) => {
             .setAuthor(used, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('RANDOM');
-        if (!message.member.hasPermission("KICK_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!message.member.hasPermission('KICK_MEMBERS')) { embed.setDescription(noPerm); return message.channel.send(embed); }
         if (!args[0]) { embed.setDescription(noUser); return message.channel.send(embed); }
         if (!rUser) { embed.setDescription(noUser); return message.channel.send(embed); }
-        let ot = args.slice(1).join(" ");
+        let ot = args.slice(1).join(' ');
         embed.setDescription(`**${ot}**`);
         rUser.send(embed);
         message.channel.send(embed);
@@ -48,6 +48,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "ot",
-    aliases: ["от"]
+    name: 'ot',
+    aliases: ['от']
 };

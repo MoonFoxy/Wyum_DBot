@@ -1,5 +1,5 @@
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 module.exports.run = async (client, message, args) => {
     try {
         let config = require('../config.json');
@@ -34,6 +34,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: "setwork",
-    aliases: ["sw"]
+    name: 'setwork',
+    aliases: ['sw']
 };

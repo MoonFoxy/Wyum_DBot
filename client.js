@@ -42,7 +42,7 @@ fs.readdir('./cmds/', (err, files) => {
     if (err) console.log(err);
 
     let jsfiles = files.filter(f => f.split('.').pop() === 'js');
-    if (jsfiles.length <= 0) console.log("Нет команд для загрузки!");
+    if (jsfiles.length <= 0) console.log('Нет команд для загрузки!');
     console.log(`Загружено ${jsfiles.length} команд`);
 
     jsfiles.forEach((f, i) => {
@@ -67,7 +67,7 @@ client.on('ready', () => {
         console.log(link);
     });
 
-    let statuses = [`${prefix}help`, `${client.guilds.size} servers`, `${client.users.size} users`, "Bot by MoonFoxy"];
+    let statuses = [`${prefix}help`, `${client.guilds.size} servers`, `${client.users.size} users`, 'Bot by MoonFoxy'];
     let activestatus = statuses[Math.floor(Math.random() * statuses.length)]
     setInterval(function () {
         client.user.setPresence({
@@ -75,7 +75,7 @@ client.on('ready', () => {
                 name: activestatus,
                 status: 'online',
                 type: 'STREAMING',
-                url: "https://www.twitch.tv/m0onf0xy"
+                url: 'https://www.twitch.tv/m0onf0xy'
             }
         });
         client.user.setPresence({
@@ -127,11 +127,11 @@ client.on('message', async message => {
     if (message.author.id == config.banid) return;
     if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
     if (message.guild.name != 'Discord Bot List') console.log(`${message.author.id} || ${message.guild.id} ||${message.guild.name} | ${message.channel.id} | ${message.channel.name} | [${message.author.tag}] | ${message.content}`)
-    let clientvmsgs = clientstats.fetch(`viewMessages`);
-    if (clientvmsgs === null) clientstats.set(`viewMessages`, 0);
+    let clientvmsgs = clientstats.fetch('viewMessages');
+    if (clientvmsgs === null) clientstats.set('viewMessages', 0);
     clientvmsgs = null;
-    let clientsmsgs = clientstats.fetch(`viewMessages`);
-    if (clientsmsgs === null) clientstats.set(`sendMessages`, 0);
+    let clientsmsgs = clientstats.fetch('viewMessages');
+    if (clientsmsgs === null) clientstats.set('sendMessages', 0);
     clientsmsgs = null;
     if (message.author.id == client.user.id) clientstats.add('sendMessages', 1);
     if (message.author.bot) return;
@@ -280,7 +280,7 @@ client.on('message', async message => {
         if (voteds) {
             if (voted <= Date.now()) {
                 console.log(`${atag} проголосовал`)
-                let msg = `${require(`./lang_${lang}.json`).other.thxvote}`;
+                let msg = `${require('./lang_${lang}.json').other.thxvote}`;
                 client.profile.add(`rep_${userid}`, 1);
                 client.profile.add(`votes_${userid}`, 1);
                 client.profile.set(`voted_${userid}`, Date.now() + 1000 * 60 * 60 * 12);
@@ -318,7 +318,7 @@ client.on('message', async message => {
         function addMark(mark) {
             client.profile.set(`marks_${message.author.id}`, `${marks} ${mark}`);
             let mm = new Discord.RichEmbed()
-                .setTitle("**Значки**")
+                .setTitle('**Значки**')
                 .setColor('RANDOM')
                 .setDescription(`${message.author} Вы получили значок ${mark}`)
             message.channel.send(mm);
@@ -333,8 +333,8 @@ client.on('message', async message => {
         if (!marks.includes('💳') && coins >= 1000000000) await addMark('💳');
         if (!marks.includes('💎') && coins < 0) addMark('💎');
         if (!marks.includes('💒') && partner) addMark('💒');
-        if (!marks.includes('🏳️‍🌈') && message.content.toLowerCase() == "я гей") addMark('🏳️‍🌈');
-        if (!marks.includes('💥') && message.content.toLowerCase() == "я люблю лисичек") addMark('💥');
+        if (!marks.includes('🏳️‍🌈') && message.content.toLowerCase() == 'я гей') addMark('🏳️‍🌈');
+        if (!marks.includes('💥') && message.content.toLowerCase() == 'я люблю лисичек') addMark('💥');
         if (marks.indexOf('undefined') != -1) {
             client.profile.delete(`marks_${message.author.id}`)
         }
@@ -370,11 +370,11 @@ client.on('message', async message => {
                 });
             });
         };
-        if (message.content.indexOf("discord.gg") != -1 || message.content.indexOf("discordapp.com/invite") != -1) {
+        if (message.content.indexOf('discord.gg') != -1 || message.content.indexOf('discordapp.com/invite') != -1) {
             if (!message.member.hasPermission('MANAGE_CHANNELS')) {
                 message.delete().then(() => {
                     let embed = new Discord.RichEmbed()
-                        .setTitle("**Анти-Реклама**")
+                        .setTitle('**Анти-Реклама**')
                         .setDescription(`${message.author}\n${message.content}`)
                         .setFooter(`${message.author.tag} получил mute на 18 часов`);
                     client.mutes.set(`guild_${message.author.id}`, message.guild.id);
@@ -419,16 +419,16 @@ client.on('message', async message => {
             return message.channel.send(emb)
         } else {
             if (!message.member.hasPermission('ADMINISTRATOR')) {
-                emb.setDescription("Вам нужны права администратора\nYou need administrator rights");
+                emb.setDescription('Вам нужны права администратора\nYou need administrator rights');
                 return message.channel.send(emb)
             };
             if (args[0].toLowerCase() == 'ru') {
                 guild_$.set(`lang_${guildid}`, 'ru');
-                emb.setDescription("Теперь бот будет работать на **Русском** языке")
+                emb.setDescription('Теперь бот будет работать на **Русском** языке')
                 return message.channel.send(emb)
             } else if (args[0].toLowerCase() == 'en') {
                 guild_$.set(`lang_${guildid}`, 'en');
-                emb.setDescription("Now the bot will work in **English** language")
+                emb.setDescription('Now the bot will work in **English** language')
                 return message.channel.send(emb)
             } else {
                 return message.channel.send(emb)
@@ -474,37 +474,37 @@ client.on('presenceUpdate', async (oldMember, newMember) => {
             }
         }
 
-        ifGame("dota 2", "Dota 2", '#A52A2A');
-        ifGame("PLAYERUNKNOWN\'S BATTLEGROUNDS", "PUBG", '#E7A200');
-        ifGame("minecraft", "Minecraft", '#90EE90');
-        ifGame("payday", "Pay Day 2", '#339DF8');
-        ifGame("fortnite", "Fortnite", '#DA7FEB');
-        ifGame("osu", "Osu!", '#F38AEC');
-        ifGame("rocket league", "Rocket League", '#3399CC');
-        ifGame("Grand Theft Auto", "Grand Theft Auto", '#FEBE5B');
-        ifGame("terraria", "Terraria", '#90EE90');
-        ifGame("Counter-Strike: Global Offensive", "CS:GO", '#FDAC24');
-        ifGame("League of legend", "League Of Legends", '#FCE252');
-        ifGame("Garry\'s Mod", "Garry\'s mod", '#1294F1');
-        ifGame("overwatch", "Overwatch", '#FA9C21');
-        ifGame("portal 2", "Portal 2", '#00ACE6');
-        ifGame("don\'t starve", "Don\'t Starve", '#983A17');
-        ifGame("sublime text", "Code", '#35A6F0');
-        ifGame("visual studio", "Code", '#35A6F0');
-        ifGame("notepad++", "Code", '#35A6F0');
-        ifGame("vimeworld.ru", "Minecraft", '#90EE90');
-        ifGame("roblox", "Roblox", '#E2221A');
-        ifGame("pubg lite", "PUBG", '#E7A200');
-        ifGame("witcher", "Witcher", '#91192E');
-        ifGame("fallout", "Fallout", '#9B9C55');
-        ifGame("trove", "Trove", '#FFE106');
-        ifGame("team fortress", "Team Fortress", '#C7913B');
-        ifGame("arma", "Arma", '#495B3F');
-        ifGame("starcraft", "StarCraft", '#063E72');
-        ifGame("apex", "Apex", '#CF3134');
-        ifGame("half-life", "Half-Life", '#FD7302');
-        ifGame("rust", "Rust", '#CD422A');
-        ifGame("paladins", "Paladins", '#76F7F3');
+        ifGame('dota 2', 'Dota 2', '#A52A2A');
+        ifGame('PLAYERUNKNOWN\'S BATTLEGROUNDS', 'PUBG', '#E7A200');
+        ifGame('minecraft', 'Minecraft', '#90EE90');
+        ifGame('payday', 'Pay Day 2', '#339DF8');
+        ifGame('fortnite', 'Fortnite', '#DA7FEB');
+        ifGame('osu', 'Osu!', '#F38AEC');
+        ifGame('rocket league', 'Rocket League', '#3399CC');
+        ifGame('Grand Theft Auto', 'Grand Theft Auto', '#FEBE5B');
+        ifGame('terraria', 'Terraria', '#90EE90');
+        ifGame('Counter-Strike: Global Offensive', 'CS:GO', '#FDAC24');
+        ifGame('League of legend', 'League Of Legends', '#FCE252');
+        ifGame('Garry\'s Mod', 'Garry\'s mod', '#1294F1');
+        ifGame('overwatch', 'Overwatch', '#FA9C21');
+        ifGame('portal 2', 'Portal 2', '#00ACE6');
+        ifGame('don\'t starve', 'Don\'t Starve', '#983A17');
+        ifGame('sublime text', 'Code', '#35A6F0');
+        ifGame('visual studio', 'Code', '#35A6F0');
+        ifGame('notepad++', 'Code', '#35A6F0');
+        ifGame('vimeworld.ru', 'Minecraft', '#90EE90');
+        ifGame('roblox', 'Roblox', '#E2221A');
+        ifGame('pubg lite', 'PUBG', '#E7A200');
+        ifGame('witcher', 'Witcher', '#91192E');
+        ifGame('fallout', 'Fallout', '#9B9C55');
+        ifGame('trove', 'Trove', '#FFE106');
+        ifGame('team fortress', 'Team Fortress', '#C7913B');
+        ifGame('arma', 'Arma', '#495B3F');
+        ifGame('starcraft', 'StarCraft', '#063E72');
+        ifGame('apex', 'Apex', '#CF3134');
+        ifGame('half-life', 'Half-Life', '#FD7302');
+        ifGame('rust', 'Rust', '#CD422A');
+        ifGame('paladins', 'Paladins', '#76F7F3');
         newMember = null;
         oldMember = null;
     } catch (error) {
@@ -517,7 +517,7 @@ client.on('guildMemberAdd', (member) => {
     if (!member.guild.me.hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return;
     let guildid = member.guild.id
     let ejoin = new Discord.RichEmbed()
-        .setTitle(`**Новый участник**`)
+        .setTitle('**Новый участник**')
         .setDescription(`**${member.user.tag}** присоединился на сервер! Добро пожаловать!`)
         .setColor('#77DD77')
         .setFooter(`Кол-во участников сервера ${member.guild.memberCount}`);
@@ -557,7 +557,7 @@ client.on('guildMemberRemove', (member) => {
     if (member.id == config.admin) return;
     let guildid = member.guild.id
     let ejoin = new Discord.RichEmbed()
-        .setTitle("**Удаление участника **")
+        .setTitle('**Удаление участника **')
         .setDescription(`**${member.user.tag}** покинул наш сервер!`)
         .setColor('#E22216')
         .setFooter(`Кол-во участников сервера ${member.guild.memberCount}`);

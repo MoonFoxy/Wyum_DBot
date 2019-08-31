@@ -12,7 +12,7 @@ module.exports.run = async (client, message, args) => {
 
         let emb = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setDescription("Help")
+            .setDescription('Help')
             .setColor('#f646ff')
             .addField(`**:dollar: ${msgs[0]}**`, '``add`` ``bonus`` ``casino`` ``clan`` ``pay`` ``profile`` ``shop`` ``set`` ``marks`` ``work`` ``groll`` ``lroll``')
             .addField(`**:gun: ${msgs[1]}**`, '``ban`` ``clear`` ``kick`` ``say`` ``mute`` ``unmute`` ``warn`` ``unwarn`` ``report`` ``autorole`` ``welcomemessage`` ``createstats`` ``roomcreator`` ``cmdchannel`` ``sh`` ``voiceonline`` ``blockinvites`` ``joinleave`` ``bug`` ``ot``')

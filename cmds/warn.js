@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -15,9 +15,9 @@ module.exports.run = async (client, message, args) => {
 
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Варн**")
+            .setTitle('**Варн**')
             .setColor('#e22216');
-        if (!message.member.hasPermission("BAN_MEMBERS")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+        if (!message.member.hasPermission('BAN_MEMBERS')) { embed.setDescription(noPerm); return message.channel.send(embed); }
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
 
@@ -48,7 +48,7 @@ module.exports.run = async (client, message, args) => {
         message.channel.send(embeds);
         if (warns >= 3) {
             client.lprofile.set(`warns_${rUser.id}`, 0);
-            message.guild.member(rUser).ban("3/3 Предупреждений | Warns");
+            message.guild.member(rUser).ban('3/3 Предупреждений | Warns');
         };
     } catch (err) {
         let config = require('../config.json');
@@ -66,6 +66,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "warn",
-    aliases: ["варн", 'предупреждение', 'прикол']
+    name: 'warn',
+    aliases: ['варн', 'предупреждение', 'прикол']
 };

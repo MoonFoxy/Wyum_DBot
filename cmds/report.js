@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     let config = require('../config.json');
@@ -38,7 +38,7 @@ module.exports.run = async (client, message, args) => {
             .setColor('#e22216')
     let rUser = message.guild.member(message.mentions.users.first());
     if (!rUser) rUser = reasonz[1];
-    let reason = args.join(" ");
+    let reason = args.join(' ');
     if (!reason) { embed.setDescription(`${msgs[1]}`); return message.channel.send(embed); };
     let emb = new Discord.RichEmbed()
         .setAuthor(used, message.author.avatarURL)
@@ -53,6 +53,6 @@ module.exports.run = async (client, message, args) => {
     reportchannel.send(emb);
 };
 module.exports.help = {
-    name: "report",
-    aliases: ["rp", 'репорт', 'пожаловаться', 'ябида', 'шестерка', 'мразь']
+    name: 'report',
+    aliases: ['rp', 'репорт', 'пожаловаться', 'ябида', 'шестерка', 'мразь']
 };

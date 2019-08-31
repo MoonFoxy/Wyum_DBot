@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -10,7 +10,8 @@ module.exports.run = async (client, message, args) => {
         };
 
         let config = require('../config.json');
-        if (args) if (args[0] == 'help') return message.channel.send(`**set** - Установить точный локальный баланс пользователю\n**Использование:** ${config.prefix}set`);
+        if (args)
+            if (args[0] == 'help') return message.channel.send(`**set** - Установить точный локальный баланс пользователю\n**Использование:** ${config.prefix}set`);
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
             .setTitle('**Изменение**')
@@ -20,19 +21,31 @@ module.exports.run = async (client, message, args) => {
         if (uadmin != 1) return;
 
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-        let res = args.slice(1).join(" ");
+        let res = args.slice(1).join(' ');
 
-        if (!args[0]) { embed.setDescription(`**Укажите пользователя**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
-        if (!rUser) { embed.setDescription('**Данный пользователь не найден**'); return message.channel.send(embed); }
-        if (!res) { embed.setDescription(`**Укажите Число**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
-        if (!isNumeric(res)) { embed.setDescription(`**Укажите число правильно**\n*Пример ${config.prefix}gset @user 500*`); return message.channel.send(embed); };
+        if (!args[0]) {
+            embed.setDescription(`**Укажите пользователя**\n*Пример ${config.prefix}gset @user 500*`);
+            return message.channel.send(embed);
+        };
+        if (!rUser) {
+            embed.setDescription('**Данный пользователь не найден**');
+            return message.channel.send(embed);
+        }
+        if (!res) {
+            embed.setDescription(`**Укажите Число**\n*Пример ${config.prefix}gset @user 500*`);
+            return message.channel.send(embed);
+        };
+        if (!isNumeric(res)) {
+            embed.setDescription(`**Укажите число правильно**\n*Пример ${config.prefix}gset @user 500*`);
+            return message.channel.send(embed);
+        };
         client.profile.set(`coins_${rUser.id}`, Math.floor(parseInt(res)));
         let coins = client.profile.fetch(`coins_${rUser.id}`);
         if (coins === null) client.profile.set(`coins_${rUser.id}`, 1 + Math.floor(parseInt(res)));
 
         let bembed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**Изменение**")
+            .setTitle('**Изменение**')
             .setColor('#10e250')
             .addField(`Вы установили ${rUser.user.tag} ${args[1]} монеток!`, `Его баланс составляет ${coins}`)
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL);
@@ -54,6 +67,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "gset",
-    aliases: ["густановить"]
+    name: 'gset',
+    aliases: ['густановить']
 };

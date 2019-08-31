@@ -1,4 +1,4 @@
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args) => {
 
         const args = message.content.split(' ').slice(1);
 
-        if (message.content.startsWith(config.prefix + "eval")) {
+        if (message.content.startsWith(config.prefix + 'eval')) {
             if (message.author.id !== config.admin) return;
             try {
                 const code = args.join(' ');
@@ -40,6 +40,6 @@ module.exports.run = async (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "eval",
+    name: 'eval',
     aliases: ['евал']
 };

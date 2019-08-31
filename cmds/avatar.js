@@ -48,6 +48,6 @@ module.exports.run = (client, message, args) => {
     };
 };
 module.exports.help = {
-    name: "avatar",
-    aliases: ["аватар"]
+    name: 'avatar',
+    aliases: ['аватар']
 };

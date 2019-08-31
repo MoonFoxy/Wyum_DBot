@@ -1,6 +1,6 @@
 //Завершено
 
-const Discord = module.require("discord.js");
+const Discord = module.require('discord.js');
 const ytdl = require('ytdl-core');
 
 module.exports.run = async (client, message, args) => {
@@ -11,7 +11,7 @@ module.exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.ntf + '`');
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("Hi everyone")
+            .setTitle('Hi everyone')
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL);
         let fetched = client.active.get(message.guild.id);
@@ -43,8 +43,8 @@ module.exports.run = async (client, message, args) => {
         }
         const bembed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle("**I'm love you**")
-            .setColor("#6767e0")
+            .setTitle('**I\'m love you**')
+            .setColor('#6767e0')
             .addField('**Очередь** | **Queue**', resp)
             .setFooter(ntf, client.user.avatarURL);
         message.channel.send(bembed);
@@ -65,6 +65,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "queue",
-    aliases: ["очередь", 'играет', 'чтоиграет']
+    name: 'queue',
+    aliases: ['очередь', 'играет', 'чтоиграет']
 };

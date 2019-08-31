@@ -26,7 +26,7 @@ module.exports.run = async (client, message, args) => {
 
         switch (args[0].toLowerCase()) {
             case 'add':
-                if (!message.member.hasPermission("MANAGE_ROLES")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+                if (!message.member.hasPermission('MANAGE_ROLES')) { embed.setDescription(noPerm); return message.channel.send(embed); }
                 if (!args[1]) { embed.setDescription(msgs[2]); return message.channel.send(embed); }
                 if (!args[2]) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
                 if (!isNumeric(args[2])) { embed.setDescription(msgs[3]); return message.channel.send(embed); }
@@ -38,7 +38,7 @@ module.exports.run = async (client, message, args) => {
                 return message.channel.send(embed);
             
             case 'clear':
-                if (!message.member.hasPermission("ADMINISTRATOR")) { embed.setDescription(noPerm); return message.channel.send(embed); }
+                if (!message.member.hasPermission('ADMINISTRATOR')) { embed.setDescription(noPerm); return message.channel.send(embed); }
                 client.guild.delete(`shop_${message.guild.id}`)
                 client.guild.delete(`prices_${message.guild.id}`)
                 embed.setDescription(msgs[5]);
@@ -93,6 +93,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: "shop",
-    aliases: ["магазин", 'шоп', 'жопа']
+    name: 'shop',
+    aliases: ['магазин', 'шоп', 'жопа']
 };

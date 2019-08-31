@@ -4,26 +4,29 @@ const Discord = module.require('discord.js');
 
 module.exports.run = async (client, message, args) => {
     try {
+        let config = require('../config.json');
 
         function isNumeric(n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
         };
-        let acoins = client.lprofile.fetch(`coins_${message.author.id}_${message.guild.id}`);
-        let res = args.slice(1).join(' ');
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
-        let config = require('../config.json');
+        let res = args.slice(1).join(' ');
         let lang = require(`../lang_${client.lang}.json`);
-        let otherlang = require(`../lang_${client.lang}.json`);
-        let olang = otherlang.casino.split('<>');
         let ntf = eval('`' + lang.ntf + '`');
         let noUser = lang.noUser;
         let embed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setTitle(`**Pay**`)
+            .setTitle('Set')
             .setFooter(ntf, client.user.avatarURL)
             .setColor('#e22216');
-        if (!rUser) { embed.setDescription(`${noUser}`); return message.channel.send(embed); }
-        let evaled = eval('`' + lang.pay + '`');
+        if (!rUser) {
+            embed.setDescription(noUser);
+            return message.channel.send(embed);
+        }
+        let coins = client.lprofile.fetch(`coins_${rUser.id}_${rUser.guild.id}`);
+        let otherlang = require(`../lang_${client.lang}.json`);
+        let olang = otherlang.casino.split('<>');
+        let evaled = eval('`' + lang.set + '`');
         let noNum = lang.noNum;
         let noPerm = lang.noPerm;
         let nowMoney = lang.nowMoney;
@@ -35,24 +38,36 @@ module.exports.run = async (client, message, args) => {
         let actions = lang.actions.split('<>')
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
+        if (!message.member.hasPermission('ADMINISTRATOR')) {
+            embed.setDescription('У вас нет прав');
+            return message.channel.send(embed);
+        }
 
 
-        if (!args[0]) { embed.setDescription(`**${noUser}**\n${msgs[0]}`); return message.channel.send(embed); };
-        if (!res) { embed.setDescription(`${msgs[0]}`); return message.channel.send(embed); };
-        if (!isNumeric(Math.floor(parseInt(res)))) { embed.setDescription(`${msgs[0]}`); return message.channel.send(embed); };
-        if (res <= 0) { embed.setDescription(`${msgs[1]}`); return message.channel.send(embed); };
-        if (rUser.id == message.author.id) { embed.setDescription(`${msgs[2]}`); return message.channel.send(embed); };
-        if (res > acoins) { embed.setDescription(`${msgs[3]}`); return message.channel.send(embed); };
-        client.lprofile.subtract(`coins_${message.author.id}_${message.guild.id}`, Math.floor(parseInt(res)))
-        client.lprofile.add(`coins_${rUser.id}_${message.guild.id}`, Math.floor(parseInt(res)));
-        let coins = client.lprofile.fetch(`coins_${rUser.id}_${message.guild.id}`);
-        if (coins === null) client.lprofile.set(`coins_${rUser.id}_${message.guild.id}`, 1 + Math.floor(parseInt(res)));
+        if (!args[0]) {
+            embed.setDescription(noUser);
+            return message.channel.send(embed);
+        };
+        if (!rUser) {
+            embed.setDescription(noUser);
+            return message.channel.send(embed);
+        }
+        if (!res) {
+            embed.setDescription(noNum);
+            return message.channel.send(embed);
+        };
+        if (!isNumeric(res)) {
+            embed.setDescription(noNum);
+            return message.channel.send(embed);
+        };
+        client.lprofile.set(`coins_${rUser.id}_${rUser.guild.id}`, Math.floor(parseInt(res)));
+        if (coins === null) client.lprofile.set(`coins_${rUser.id}_${rUser.guild.id}`, 1 + Math.floor(parseInt(res)));
 
         let bembed = new Discord.RichEmbed()
             .setAuthor(used, message.author.avatarURL)
-            .setDescription('**iPay**')
+            .setTitle(msgs[0])
             .setColor('#10e250')
-            .addField(`${msgs[4]}`, `${nowMoney} ${coins}`)
+            .addField(msgs[1])
             .setFooter(ntf, client.user.avatarURL);
 
         message.channel.send(bembed);
@@ -72,6 +87,6 @@ module.exports.run = async (client, message, args) => {
 
 };
 module.exports.help = {
-    name: 'pay',
-    aliases: ['передать']
+    name: 'set',
+    aliases: ['установить']
 };
