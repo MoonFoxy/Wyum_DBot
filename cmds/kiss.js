@@ -11,7 +11,7 @@ module.exports.run = async (client, message, args) => {
 
     let rUser = message.guild.member(message.mentions.users.first()) || message.author;
     let emb = new Discord.RichEmbed()
-        .setAuthor(used, message.author.avatarURL)
+        .setAuthor(message.author.username, message.author.avatarURL)
         .setDescription(`${message.author} ${msgs[0]} ${rUser}`)
         .setColor('#f646ff')
         .setImage(`https://media1.tenor.com/images/45e529c116a1758fd09bdb27e2172eca/tenor.gif?itemid=11674749`)

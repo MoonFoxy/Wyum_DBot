@@ -16,7 +16,7 @@ module.exports.run = async (client, message, args) => {
         const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
 
         const bembed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor(config.color.cyan)
             .setThumbnail('https://discordemoji.com/assets/emoji/2278_PinkCatSpin.gif')
@@ -36,9 +36,9 @@ module.exports.run = async (client, message, args) => {
         
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin);
+        let a = client.users.get(config.dev);
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)

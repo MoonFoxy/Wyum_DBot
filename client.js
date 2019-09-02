@@ -4,14 +4,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const fs = require('fs');
 const db = require('quick.db');
-const DBL = require('dblapi.js');
-const dbl = new DBL(process.env.DBLTOKEN);
+//const DBL = require('dblapi.js');
+//const dbl = new DBL(process.env.DBLTOKEN);
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 let config = require('./config.json');
 let prefix = config.prefix;
 client.prefix = prefix;
-let adm = config.admin;
 const active = new Map();
 client.active = active;
 //--Переменные
@@ -27,7 +26,7 @@ let lprofile = new db.table('lprofile');
 client.lprofile = lprofile;
 
 let clientstats = new db.table('clientstats');
-client.clientstats = clientstats
+client.clientstats = clientstats;
 
 let guild_$ = new db.table('guild');
 client.guild = guild_$;
@@ -38,24 +37,18 @@ client.clan = allclans;
 
 //Загрузка команд
 fs.readdir('./cmds/', (err, files) => {
-
     if (err) console.log(err);
-
-    let jsfiles = files.filter(f => f.split('.').pop() === 'js');
+    let jsfiles = files.filter(files => files.endsWith('.js'));
     if (jsfiles.length <= 0) console.log('Нет команд для загрузки!');
     console.log(`Загружено ${jsfiles.length} команд`);
-
-    jsfiles.forEach((f, i) => {
-
-        let props = require(`./cmds/${f}`);
-        console.log(`${i + 1}.${f} Загружен!`);
+    jsfiles.forEach((files, i) => {
+        let props = require(`./cmds/${files}`);
+        console.log(`${i + 1}.${files} Загружен!`);
         client.commands.set(props.help.name, props);
         props.help.aliases.forEach(alias => {
             client.aliases.set(alias, props.help.name);
         });
-
     });
-
 });
 //--Загрузка команд
 
@@ -67,8 +60,8 @@ client.on('ready', () => {
         console.log(link);
     });
 
-    let statuses = [`${prefix}help`, `${client.guilds.size} servers`, `${client.users.size} users`, 'Bot by MoonFoxy'];
-    let activestatus = statuses[Math.floor(Math.random() * statuses.length)]
+    let statuses = [`${prefix}help`, `${client.guilds.size} servers`, `${client.users.size} users`, `Bot by MoonFoxy`];
+    let activestatus = statuses[Math.floor(Math.random() * statuses.length)];
     setInterval(function () {
         client.user.setPresence({
             game: {
@@ -84,7 +77,7 @@ client.on('ready', () => {
             },
             status: 'online'
         });
-        dbl.postStats(client.guilds.size);
+        //dbl.postStats(client.guilds.size);
     }, 15000);
 
     client.setInterval(() => {
@@ -126,7 +119,7 @@ client.on('message', async message => {
 
     if (message.author.id == config.banid) return;
     if (!message.guild.me.hasPermission('SEND_MESSAGES')) return;
-    if (message.guild.name != 'Discord Bot List') console.log(`${message.author.id} || ${message.guild.id} ||${message.guild.name} | ${message.channel.id} | ${message.channel.name} | [${message.author.tag}] | ${message.content}`)
+    if (message.guild.name != 'Discord Bot List') console.log(`${message.author.id} || ${message.guild.id} ||${message.guild.name} | ${message.channel.id} | ${message.channel.name} | [${message.author.tag}] | ${message.content}`);
     let clientvmsgs = clientstats.fetch('viewMessages');
     if (clientvmsgs === null) clientstats.set('viewMessages', 0);
     clientvmsgs = null;
@@ -138,17 +131,9 @@ client.on('message', async message => {
     if (message.channel.type == 'dm') return;
     //--Реакция на сообщения
 
-
-    //Сервера
-    let cmdchannel = guild_$.fetch(`cmdchannel_${guildid}`);
-    let blockInvites = guild_$.fetch(`blockInvites_${guildid}`);
-    let lang = guild_$.fetch(`lang_${guildid}`);
-    client.lang = lang;
-    //--Сервера
-
     //Профиль
     client.sendcur = async function (usr, msg) {
-        let usrz = await client.users.get(`${usr}`)
+        let usrz = await client.users.get(`${usr}`);
         if (usrz) await usrz.send(msg);
         usrz = null;
     };
@@ -161,6 +146,7 @@ client.on('message', async message => {
 
     let lvl = profile.fetch(`lvl_${userid}`);
     if (lvl === null) profile.set(`lvl_${userid}`, 1);
+
     let xp = profile.fetch(`xp_${userid}`);
     if (xp === null) profile.set(`xp_${userid}`, 0);
 
@@ -192,7 +178,7 @@ client.on('message', async message => {
 
     let clan = profile.fetch(`clan_${userid}`);
     let partner = profile.fetch(`partner_${userid}`);
-    if (userid == adm) profile.set(`admin_${userid}`, 1);
+    if (userid == config.dev) profile.set(`admin_${userid}`, 1);
 
     let work = profile.fetch(`work_${userid}`);
     if (work === null) profile.set(`work_${userid}`, 0);
@@ -210,85 +196,8 @@ client.on('message', async message => {
     if (votes === null) profile.set(`votes_${userid}`, 0);
     worked = null;
 
-    work = eval('`' + require(`./lang_${lang}.json`).economy.worklist + '`').split('<>');
-    client.worklist = [{
-            name: work[0],
-            addCoins: 100,
-            works: 5
-        },
-        {
-            name: work[1],
-            addCoins: 500,
-            works: 15
-        },
-        {
-            name: work[2],
-            addCoins: 3000,
-            works: 30
-        },
-        {
-            name: work[3],
-            addCoins: 5000,
-            works: 55
-        },
-        {
-            name: work[4],
-            addCoins: 8500,
-            works: 80
-        },
-        {
-            name: work[5],
-            addCoins: 15000,
-            works: 110
-        },
-        {
-            name: work[6],
-            addCoins: 30000,
-            works: 150
-        },
-        {
-            name: work[7],
-            addCoins: 50000,
-            works: 200
-        },
-        {
-            name: work[8],
-            addCoins: 120000,
-            works: 290
-        },
-        {
-            name: work[9],
-            addCoins: 300000,
-            works: 400
-        },
-        {
-            name: work[10],
-            addCoins: 500000,
-            works: 600
-        },
-        {
-            name: work[11],
-            addCoins: 750000,
-            works: 1000
-        }
-    ]
+    
     //--Профиль
-
-    //Проголосовал
-    let atag = message.author.tag;
-    dbl.hasVoted(`${message.author.id}`).then(async voteds => {
-        if (voteds) {
-            if (voted <= Date.now()) {
-                console.log(`${atag} проголосовал`)
-                let msg = `${require('./lang_${lang}.json').other.thxvote}`;
-                client.profile.add(`rep_${userid}`, 1);
-                client.profile.add(`votes_${userid}`, 1);
-                client.profile.set(`voted_${userid}`, Date.now() + 1000 * 60 * 60 * 12);
-                client.sendcur(`${userid}`, msg);
-            };
-        };
-    });
-    //--Проголосовал
 
     //Локальный профиль
     let lcoins = lprofile.fetch(`coins_${userid}_${guildid}`);
@@ -304,24 +213,118 @@ client.on('message', async message => {
     client.profile.add(`xp_${userid}`, 1);
     client.profile.add(`messages_${userid}`, 1);
     client.clientstats.add('viewMessages', 1);
-    if (clan != null) client.clan.add(`${clan}_messages`, 1)
+    if (clan != null) client.clan.add(`${clan}_messages`, 1);
     clan = null;
     if (xp > (Math.floor(lvl * 3.4))) {
         profile.set(`xp_${userid}`, 0);
         profile.add(`lvl_${userid}`, 1);
     }
-    xp = null
+    xp = null;
+
+    let cmdchannel = guild_$.fetch(`cmdchannel_${guildid}`);
+    let blockInvites = guild_$.fetch(`blockInvites_${guildid}`);
+    let lang = guild_$.fetch(`lang_${guildid}`);
+    if (lang === null) guild_$.set(`lang_${guildid}`, 'en');
+    client.lang = lang;
     //--Локальный профиль
+
+    //Список работ
+    worklist = eval('`' + require(`./lang_${lang}.json`).economy.worklist + '`').split('<>');
+    client.worklist = [{
+            name: worklist[0],
+            addCoins: 100,
+            works: 5
+        },
+        {
+            name: worklist[1],
+            addCoins: 500,
+            works: 15
+        },
+        {
+            name: worklist[2],
+            addCoins: 3000,
+            works: 30
+        },
+        {
+            name: worklist[3],
+            addCoins: 5000,
+            works: 55
+        },
+        {
+            name: worklist[4],
+            addCoins: 8500,
+            works: 80
+        },
+        {
+            name: worklist[5],
+            addCoins: 15000,
+            works: 110
+        },
+        {
+            name: worklist[6],
+            addCoins: 30000,
+            works: 150
+        },
+        {
+            name: worklist[7],
+            addCoins: 50000,
+            works: 200
+        },
+        {
+            name: worklist[8],
+            addCoins: 120000,
+            works: 290
+        },
+        {
+            name: worklist[9],
+            addCoins: 300000,
+            works: 400
+        },
+        {
+            name: worklist[10],
+            addCoins: 500000,
+            works: 600
+        },
+        {
+            name: worklist[11],
+            addCoins: 750000,
+            works: 1000
+        }
+    ];
+    //--Список работ
+
+    //Проголосовал
+    /*
+    let atag = message.author.tag;
+    dbl.hasVoted(`${message.author.id}`).then(async voteds => {
+        if (voteds) {
+            if (voted <= Date.now()) {
+                console.log(`${atag} проголосовал`);
+                let msg = `${require('./lang_${lang}.json').other.thxvote}`;
+                client.profile.add(`rep_${userid}`, 1);
+                client.profile.add(`votes_${userid}`, 1);
+                client.profile.set(`voted_${userid}`, Date.now() + 1000 * 60 * 60 * 12);
+                client.sendcur(`${userid}`, msg);
+            };
+        };
+    });
+    */
+    //--Проголосовал
 
     //Значки
     if (marks) {
         function addMark(mark) {
             client.profile.set(`marks_${message.author.id}`, `${marks} ${mark}`);
-            let mm = new Discord.RichEmbed()
-                .setTitle('**Значки**')
+            msgs = eval('`' + require(`./lang_${lang}.json`).info.marks + '`').split('<>');
+            let ntf = eval('`' + require(`./lang_${lang}.json`).other.ntf + '`');
+            let embed = new Discord.RichEmbed()
+                .setAuthor(message.author.username, message.author.avatarURL)
+                .setTitle(`**${msgs[0]}**`)
                 .setColor('RANDOM')
-                .setDescription(`${message.author} Вы получили значок ${mark}`)
-            message.channel.send(mm);
+                .setDescription(`${message.author} ${msgs[24]} ${mark}`)
+                .setFooter(ntf, client.user.avatarURL)
+                .setTimestamp();
+            message.channel.send(embed);
         }
         if (!marks.includes('🦄') && lvl >= 100) await addMark('🦄');
         if (!marks.includes('🙉') && lvl >= 999) await addMark('🙉');
@@ -333,19 +336,23 @@ client.on('message', async message => {
         if (!marks.includes('💳') && coins >= 1000000000) await addMark('💳');
         if (!marks.includes('💎') && coins < 0) addMark('💎');
         if (!marks.includes('💒') && partner) addMark('💒');
-        if (!marks.includes('🏳️‍🌈') && message.content.toLowerCase() == 'я гей') addMark('🏳️‍🌈');
-        if (!marks.includes('💥') && message.content.toLowerCase() == 'я люблю лисичек') addMark('💥');
+        if (!marks.includes('🏳️‍🌈') && (message.content.toLowerCase() == 'я гей' || message.content.toLowerCase() == 'i gay')) addMark('🏳️‍🌈');
+        if (!marks.includes('💥') && (message.content.toLowerCase() == 'я люблю лисичек' || message.content.toLowerCase() == 'i love chanterelles')) addMark('💥');
         if (marks.indexOf('undefined') != -1) {
-            client.profile.delete(`marks_${message.author.id}`)
-        }
-        let mm = null;
-        //--Значки
-    }
+            client.profile.delete(`marks_${message.author.id}`);
+        };
+        embed = null;
+        ntf = null;
+        msgs = null;
+    };
     marks = null;
     coins = null;
     lvl = null;
     messages = null;
     partner = null;
+    //--Значки
+
+    //Блокировка приглашений
     if (blockInvites == true) {
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
@@ -373,10 +380,15 @@ client.on('message', async message => {
         if (message.content.indexOf('discord.gg') != -1 || message.content.indexOf('discordapp.com/invite') != -1) {
             if (!message.member.hasPermission('MANAGE_CHANNELS')) {
                 message.delete().then(() => {
+                    let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.blockInvites + '`').split('<>');
+                    let ntf = eval('`' + require(`./lang_${lang}.json`).other.ntf + '`');
                     let embed = new Discord.RichEmbed()
-                        .setTitle('**Анти-Реклама**')
+                        .setAuthor(message.author.username, message.author.avatarURL)
+                        .setTitle(`**${msgs[0]}**`)
                         .setDescription(`${message.author}\n${message.content}`)
-                        .setFooter(`${message.author.tag} получил mute на 18 часов`);
+                        .setFooter(`${message.author.tag} ${msgs[2]} 18 ${msgs[3]}`)
+                        .setFooter(ntf, client.user.avatarURL)
+                        .setTimestamp();
                     client.mutes.set(`guild_${message.author.id}`, message.guild.id);
                     client.mutes.set(`time_${message.author.id}`, Date.now() + 1000 * 60 * 60 * 18);
                     message.member.addRole(role);
@@ -384,12 +396,16 @@ client.on('message', async message => {
                     logschannel.send(embed)
                     logschannel = null;
                     embed = null;
+                    msgs = null;
+                    ntf = null;
                 });
             };
         };
     };
     blockInvites = null;
+    //--Блокировка приглашений
 
+    //Канал для команд
     let messageArray = message.content.split(' ');
     let command = messageArray[0].toLowerCase();
     let args = messageArray.slice(1);
@@ -399,42 +415,27 @@ client.on('message', async message => {
     if (cmdch) {
         if (message.member) {
             if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+                let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.blockInvites + '`').split('<>'); 
+                let ntf = eval('`' + require(`./lang_${lang}.json`).other.ntf + '`');                
                 let embed = new Discord.RichEmbed()
-                    .setColor('#E22216')
+                    .setAuthor(message.author.username, message.author.avatarURL)
+                    .setColor(config.color.red)
+                    .setFooter(ntf, client.user.avatarURL)
+                    .setTimestamp();
                 if (message.channel != cmdch) {
                     message.delete(5 * 1000);
-                    embed.setDescription(`Использование команд только в <#${cmdchannel}>`);
+                    embed.setDescription(`${msgs[4]} <#${cmdchannel}>`);
                     return message.channel.send(embed).then(msg => msg.delete(5 * 1000));;
                 }
+                msgs = null;
+                ntf = null;
                 cmdch = null;
                 embed = null;
             };
         };
     };
-    if (lang === null) {
-        let emb = new Discord.RichEmbed()
-            .setColor('#FF0033')
-            .setDescription(`:flag_ru: Используйте: ${prefix}lang ru\n:flag_gb: Use ${prefix}lang en`)
-        if (command != `${prefix}lang`) {
-            return message.channel.send(emb)
-        } else {
-            if (!message.member.hasPermission('ADMINISTRATOR')) {
-                emb.setDescription('Вам нужны права администратора\nYou need administrator rights');
-                return message.channel.send(emb)
-            };
-            if (args[0].toLowerCase() == 'ru') {
-                guild_$.set(`lang_${guildid}`, 'ru');
-                emb.setDescription('Теперь бот будет работать на **Русском** языке')
-                return message.channel.send(emb)
-            } else if (args[0].toLowerCase() == 'en') {
-                guild_$.set(`lang_${guildid}`, 'en');
-                emb.setDescription('Now the bot will work in **English** language')
-                return message.channel.send(emb)
-            } else {
-                return message.channel.send(emb)
-            };
-        };
-    };
+    //--Канал для команд
+
     cmdch = null;
     userid = null;
     clientvmsgs = null;
@@ -447,7 +448,7 @@ client.on('message', async message => {
 
 client.on('presenceUpdate', async (oldMember, newMember) => {
     try {
-        if (!newMember.guild.me.hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return;
+        if (!newMember.guild.me.hasPermission('MANAGE_ROLES')) return;
         if (newMember.user.bot) return;
         async function ifGame(name, roleName, color) {
             if (newMember.presence.game) {
@@ -466,13 +467,11 @@ client.on('presenceUpdate', async (oldMember, newMember) => {
                         });
                         if (!newMember.roles.has(role)) {
                             await newMember.addRole(role);
-                        }
-
-                    }
-
-                }
-            }
-        }
+                        };
+                    };
+                };
+            };
+        };
 
         ifGame('dota 2', 'Dota 2', '#A52A2A');
         ifGame('PLAYERUNKNOWN\'S BATTLEGROUNDS', 'PUBG', '#E7A200');
@@ -509,26 +508,29 @@ client.on('presenceUpdate', async (oldMember, newMember) => {
         oldMember = null;
     } catch (error) {
         error = null;
-    }
+    };
 
 });
-client.on('guildMemberAdd', (member) => {
 
-    if (!member.guild.me.hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return;
-    let guildid = member.guild.id
+client.on('guildMemberAdd', (member) => {
+    if (!member.guild.me.hasPermission('MANAGE_ROLES')) return;
+    let guildid = member.guild.id;
+    let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.joinleave + '`').split('<>');
     let ejoin = new Discord.RichEmbed()
-        .setTitle('**Новый участник**')
-        .setDescription(`**${member.user.tag}** присоединился на сервер! Добро пожаловать!`)
-        .setColor('#77DD77')
-        .setFooter(`Кол-во участников сервера ${member.guild.memberCount}`);
+        .setAuthor(message.author.username, message.author.avatarURL)
+        .setTitle(`**${msgs[2]}**`)
+        .setDescription(`**${member.user.tag}** ${msgs[3]}`)
+        .setColor(config.color.green)
+        .setFooter(`${msgs[6]} ${member.guild.memberCount}`)
+        .setTimestamp();
     let joinChannel = client.channels.get(client.guild.fetch(`joinleave_${guildid}`))
-    if (joinChannel) joinChannel.send(ejoin)
+    if (joinChannel) joinChannel.send(ejoin);
 
     let role = member.guild.roles.get(client.guild.fetch(`autorole_${guildid}`));
     let muteRole = member.guild.roles.find(r => r.name === config.muteRole);
     let muted = client.mutes.fetch(`guild_${member.id}`);
     if (muted && muteRole) member.addRole(muteRole);
-    if (member.id == config.admin) return;
+    if (member.id == config.dev) return;
 
     let wmsg = client.guild.fetch(`welcomemessage_${guildid}`);
     if (wmsg) member.send(wmsg);
@@ -541,28 +543,31 @@ client.on('guildMemberAdd', (member) => {
     if (users && bots) {
         users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => {
             if (err) {
-                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
-            }
-        })
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`);
+            };
+        });
         bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => {
             if (err) {
-                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
-            }
-        })
-    }
-    guildid, ejoin, joinChannel, role, muteRole, muted, wmsg, totalUsers, totalBots, users, bots = null;
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`);
+            };
+        });
+    };
+    guildid, ejoin, joinChannel, role, muteRole, muted, wmsg, totalUsers, totalBots, users, bots, msgs, createstats = null;
 });
+
 client.on('guildMemberRemove', (member) => {
-    if (!member.guild.me.hasPermission('MANAGE_ROLES_OR_PERMISSIONS')) return;
-    if (member.id == config.admin) return;
-    let guildid = member.guild.id
+    if (!member.guild.me.hasPermission('MANAGE_ROLES')) return;
+    if (member.id == config.dev) return;
+    let guildid = member.guild.id;
+    let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.joinleave + '`').split('<>');
     let ejoin = new Discord.RichEmbed()
-        .setTitle('**Удаление участника **')
-        .setDescription(`**${member.user.tag}** покинул наш сервер!`)
-        .setColor('#E22216')
-        .setFooter(`Кол-во участников сервера ${member.guild.memberCount}`);
-    let joinChannel = client.channels.get(client.guild.fetch(`joinleave_${guildid}`))
-    if (joinChannel) joinChannel.send(ejoin)
+        .setAuthor(message.author.username, message.author.avatarURL)
+        .setTitle(`**${msgs[4]}**`)
+        .setDescription(`**${member.user.tag}** ${msgs[5]}`)
+        .setColor(config.color.red)
+        .setFooter(`${msgs[6]} ${member.guild.memberCount}`);
+    let joinChannel = client.channels.get(client.guild.fetch(`joinleave_${guildid}`));
+    if (joinChannel) joinChannel.send(ejoin);
     let totalUsers = guild_$.fetch(`totalUsers_${guildid}`);
     let totalBots = guild_$.fetch(`totalBots_${guildid}`);
     let users = client.channels.get(totalUsers);
@@ -570,23 +575,24 @@ client.on('guildMemberRemove', (member) => {
     if (users && bots) {
         users.setName(`🤹 Кол-во юзеров: ${member.guild.memberCount}`).catch(err => {
             if (err) {
-                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
-            }
-        })
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`);
+            };
+        });
         bots.setName(`🤖 Всего ботов: ${member.guild.members.filter(m => m.user.bot).size}`).catch(err => {
             if (err) {
-                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`)
-            }
-        })
-    }
-    guildid, ejoin, joinChannel, totalUsers, totalBots, users, bots = null;
+                member.guild.defaultChannel.send(`Произошла ошибка в **${prefix}serverstats**.\nНапишите команду **${prefix}serverstats** для устранения ошибки!`);
+            };
+        });
+    };
+    guildid, ejoin, joinChannel, totalUsers, totalBots, users, bots, msgs, createstats = null;
 });
+
 client.on('voiceStateUpdate', (oldMember, newMember) => {
     if (!newMember.guild.me.hasPermission('MANAGE_CHANNELS')) return;
-    let newUserChannel = newMember.voiceChannel
-    let oldUserChannel = oldMember.voiceChannel
+    let newUserChannel = newMember.voiceChannel;
+    let oldUserChannel = oldMember.voiceChannel;
 
-    let guildid = newMember.guild.id || oldMember.guild.id
+    let guildid = newMember.guild.id || oldMember.guild.id;
     let vOnlineId = guild_$.fetch(`voiceOnline_${guildid}`);
     let vOnlineText = guild_$.fetch(`voiceOnlineText_${guildid}`);
     let chv = client.channels.get(vOnlineId);
@@ -597,29 +603,28 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         if (!newUserChannel && oldUserChannel) {
             chv.setName(`${vOnlineText} ${newMember.guild.members.filter(m => m.voiceChannel).size}`).catch(err => err);
         };
-    }
-    let bb = client.guild.fetch(`roomCreator_${guildid}`)
+    };
+    let bb = client.guild.fetch(`roomCreator_${guildid}`);
     client.bb = bb;
-    let ch = client.channels.get(client.guild.fetch(`roomCreator_${guildid}`))
+    let ch = client.channels.get(client.guild.fetch(`roomCreator_${guildid}`));
     client.ch = ch;
     if (newMember.voiceChannel && ch && newMember.voiceChannel.id == ch.id) {
         newMember.guild.createChannel(`${newMember.displayName} Room`, {
-                type: 'voice'
-            }).catch(error => error)
-            .then(channel => {
-                deleteEmptyChannelAfterDelay(channel);
-                channel.setParent(ch.parentID)
-                    .catch(error => error);
-                newMember.setVoiceChannel(channel)
-                    .catch(error => error);
-                channel.setUserLimit(5)
-                    .catch(error => error);
-                channel.overwritePermissions(newMember, {
-                    MANAGE_CHANNELS: true
-                })
+            type: 'voice'
+        }).catch(error => error).then(channel => {
+            deleteEmptyChannelAfterDelay(channel);
+            channel.setParent(ch.parentID)
+                .catch(error => error);
+            newMember.setVoiceChannel(channel)
+                .catch(error => error);
+            channel.setUserLimit(5)
+                .catch(error => error);
+            channel.overwritePermissions(newMember, {
+                MANAGE_CHANNELS: true
             });
+        });
         if (!ch.parentID) ch.delete();
-    }
+    };
     deleteEmptyChannelAfterDelay(oldMember.voiceChannel);
     newUserChannel = oldUserChannel = guildid = vOnlineId = vOnlineText = chv = null;
     return null;
@@ -641,7 +646,7 @@ function deleteEmptyChannelAfterDelay(voiceChannel, delay = 300) {
         if (client.ch && voiceChannel.parentID != client.ch.parentID) return;
         voiceChannel.delete()
             .catch(error => error);
-    }, delay)
+    }, delay);
+};
 
-}
 client.login(process.env.DISCORDTOKEN);

@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args) => {
         let uadmin = client.profile.fetch(`admin_${message.author.id}`);
         if (uadmin != 1) return;
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle('**Репутация**')
             .setFooter('Пригласить бота на сервер: !invite', message.author.avatarURL)
             .setColor('#e22216');
@@ -31,7 +31,7 @@ module.exports.run = async (client, message, args) => {
         if (rep === null) client.profile.set(`rep_${rUser.id}`, Math.floor(parseInt(res)));
 
         let bembed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle('**Репутация**')
             .setColor('#10e250')
             .setDescription(`${rUser} Вы заслужили уважение от создателя бота!\nВсего репутации: **${rep}**`)
@@ -40,9 +40,9 @@ module.exports.run = async (client, message, args) => {
         message.channel.send(bembed);
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

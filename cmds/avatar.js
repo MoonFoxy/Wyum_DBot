@@ -13,7 +13,7 @@ module.exports.run = (client, message, args) => {
         let usr = message.mentions.users.first() ? message.mentions.users.first() : message.author;
 
         let wrong = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor(config.color.red)
             .setFooter(ntf, client.user.avatarURL)
@@ -25,7 +25,7 @@ module.exports.run = (client, message, args) => {
         };
 
         let bembed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setColor(config.color.yellow)
             .setTitle(`${msgs[0]} ${usr.username}!`)
             .setImage(usr.avatarURL)
@@ -35,9 +35,9 @@ module.exports.run = (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin);
+        let a = client.users.get(config.dev);
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)

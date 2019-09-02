@@ -25,7 +25,7 @@ module.exports.run = async (client, message, args) => {
         let noMoney = lang.noMoney;
         let x = Math.floor(args[0] - 1);
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle('**Hello world**')
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL);
@@ -54,9 +54,9 @@ module.exports.run = async (client, message, args) => {
         return message.channel.send(embed);
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

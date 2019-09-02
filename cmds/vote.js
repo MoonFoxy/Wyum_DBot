@@ -20,7 +20,7 @@ exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
     let emb = new Discord.RichEmbed()
-        .setAuthor(used, message.author.avatarURL)
+        .setAuthor(message.author.username, message.author.avatarURL)
         .setDescription(msgs[0])
         .setColor('#10e250')
         .addField(msgs[3],'**https://discordbots.org/bot/net*')

@@ -10,12 +10,12 @@ module.exports.run = async (client, message, args) => {
         let ntf = eval('`' + lang.other.ntf + '`');
         let msgs = evaled.split('<>');
         let mod = lang.moderation;
-        let admin = mod.admin.split('<>');
+        let admin = mod.admin;
 
         let uadmin = client.profile.fetch(`admin_${message.author.id}`);
 
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setColor(config.color.red)
             .setFooter(ntf, client.user.avatarURL)
             .setTimestamp();
@@ -24,8 +24,8 @@ module.exports.run = async (client, message, args) => {
         let ops = args.join(' ')
         if (!ops) return;
 
-        let admin = client.users.get(config.admin);
-        admin.send(`**${message.author.tag} | ${message.author.id}**\n\n**${message.guild.name} | ${message.guild.id}**\n\n${ops}`);
+        let iamdev = client.users.get(config.dev);
+        iamdev.send(`**${message.author.tag} | ${message.author.id}**\n\n**${message.guild.name} | ${message.guild.id}**\n\n${ops}`);
         embed.setColor(config.color.yellow)
         embed.addField(`${message.author.tag}`, `**${msgs[0]}**`)
         embed.setTimestamp();
@@ -34,9 +34,9 @@ module.exports.run = async (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)

@@ -18,7 +18,7 @@ module.exports.run = async (client, message, args) => {
         let bonus = Math.floor(Math.random() * (120 - 10)) + 10 + (lvl * 5); //Формуа выдачи бонуса с помощью лвла
 
         let wrong = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setColor(config.color.red)
             .setDescription(`**${message.author.tag}** ${msgs[0]} **${s.minutes} minutes ${s.seconds} seconds**`)
             .setFooter(ntf, client.user.avatarURL)
@@ -37,7 +37,7 @@ module.exports.run = async (client, message, args) => {
         client.lprofile.add(`coins_${message.author.id}_${message.guild.id}`, bonus);
 
         let bembed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setColor(config.color.green)
             .setDescription(`${msgs[1]}${cd}${mh}`)
             .setFooter(ntf, client.user.avatarURL)
@@ -47,9 +47,9 @@ module.exports.run = async (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)

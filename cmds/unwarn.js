@@ -26,7 +26,7 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(msgs[0])
             .setColor('#e22216');
         if (!message.member.hasPermission('BAN_MEMBERS')) {
@@ -52,7 +52,7 @@ module.exports.run = async (client, message, args) => {
         }
         client.lprofile.subtract(`warns_${rUser.id}_${rUser.guild.id}`, 1);
         let embeds = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#25ca85')
             .addField(admin, message.author.username)
@@ -75,9 +75,9 @@ module.exports.run = async (client, message, args) => {
         message.channel.send(embeds);
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

@@ -18,7 +18,7 @@ module.exports.run = async (client, message, args) => {
         let rand = Math.floor(Math.random() * (100 - 0) + 0)
         let rand2 = Math.floor(Math.random() * (100 - 10) + 10)
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription(msgs[0])
             .setColor('#e22216')
             .setFooter(ntf, client.user.avatarURL)
@@ -54,9 +54,9 @@ module.exports.run = async (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)
@@ -67,6 +67,6 @@ module.exports.run = async (client, message, args) => {
     }
 };
 module.exports.help = {
-    name: 'lroll',
-    aliases: ['лролл', 'лроль', 'лрулетка']
+    name: '2',
+    aliases: ['21']
 };

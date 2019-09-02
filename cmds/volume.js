@@ -6,7 +6,7 @@ module.exports.run = async (client, message, args) => {
     try {
         let fetched = client.active.get(message.guild.id);
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle('**Музыка - this is russian**')
             .setColor('#e22216');
         if (!fetched) { embed.setDescription('**Треков не обнаружено | No music**'); return message.channel.send(embed); };
@@ -43,9 +43,9 @@ module.exports.run = async (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

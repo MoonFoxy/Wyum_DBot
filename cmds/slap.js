@@ -25,7 +25,7 @@ module.exports.run = async (client, message, args) => {
         let admin = lang.admin.split('<>')
         let noMoney = lang.noMoney;
     let emb = new Discord.RichEmbed()
-        .setAuthor(used, message.author.avatarURL)
+        .setAuthor(message.author.username, message.author.avatarURL)
         .setDescription(`${message.author} ${msgs[0]} ${rUser}`)
         .setImage(`https://media1.tenor.com/images/0720ffb69ab479d3a00f2d4ac7e0510c/tenor.gif?itemid=10422113`)
         .setColor('#f646ff')

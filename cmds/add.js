@@ -22,7 +22,7 @@ module.exports.run = async (client, message, args) => {
         };
 
         let wrong = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor(config.color.red)
             .setFooter(ntf, client.user.avatarURL)
@@ -43,6 +43,9 @@ module.exports.run = async (client, message, args) => {
             return message.channel.send(wrong);
         };
 
+        let coins;
+        
+
         switch (args[0].toLowerCase()) {
             case 'g':
             case 'г':
@@ -50,7 +53,7 @@ module.exports.run = async (client, message, args) => {
                 if (uadmin != 1) return;
 
                 client.profile.add(`coins_${rUser.id}`, Math.floor(parseInt(res)));
-                let coins = client.profile.fetch(`coins_${rUser.id}`);
+                coins = client.profile.fetch(`coins_${rUser.id}`);
                 if (coins === null) client.profile.set(`coins_${rUser.id}`, 1 + Math.floor(parseInt(res)));
                 break;
             case 'l':
@@ -62,13 +65,13 @@ module.exports.run = async (client, message, args) => {
                 };
 
                 client.lprofile.add(`coins_${rUser.id}_${message.guild.id}`, Math.floor(parseInt(res)));
-                let coins = client.lprofile.fetch(`coins_${rUser.id}_${message.guild.id}`);
+                coins = client.lprofile.fetch(`coins_${rUser.id}_${message.guild.id}`);
                 if (coins === null) client.lprofile.set(`coins_${rUser.id}_${message.guild.id}`, 1 + Math.floor(parseInt(res)));
                 break;
         };
 
         let bembed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription(`**${msgs[0]}**`)
             .setColor(config.color.green)
             .addField(`${msgs[1]} ${rUser.user.tag} ${res} $`, `${nowMoney} ${coins}`)
@@ -78,9 +81,9 @@ module.exports.run = async (client, message, args) => {
 
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin);
+        let a = client.users.get(config.dev);
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor(config.color.red)
             .addField(`**${err.name}**`, `**${err.message}**`)

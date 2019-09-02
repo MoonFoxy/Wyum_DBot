@@ -31,7 +31,7 @@ module.exports.run = async (client, message, args) => {
             };
             if (!atach) return;
             let embed = new Discord.RichEmbed()
-                .setAuthor(used, message.author.avatarURL)
+                .setAuthor(message.author.username, message.author.avatarURL)
                 .setColor(color)
                 .setAuthor(`В поисках +${num} TPP в ${message.member.voiceChannel.name}`, message.author.avatarURL)
                 .setDescription(`<@${message.author.id}>`)

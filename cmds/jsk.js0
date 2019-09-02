@@ -1,0 +1,136 @@
+async (message) => {
+    if (message.author.id != config.dev) {
+        await message.channel.send(new Discord.RichEmbed().setTitle('❌ Unable to access jishaku ❌')
+        .setDescription('PermX: Lacking permission node **moderscape.jishaku**'));
+        return;
+    }
+
+    let cmd = message.content.substr(`${prefix}jsk `.length).split(' ');
+    switch (cmd[0]) {
+        case 'node':
+            await message.react('▶');
+            try {
+                let js = cmd.slice(1).join(' ');
+                if (js.startsWith('```')) {
+                    js = js.split('\n');
+                    js = js.slice(1);
+                    js = js.join('\n');
+                    js = js.slice(0, js.length - 3);
+                }
+                let rz = eval(js);
+                const filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
+                const collector = message.createReactionCollector(filter, { time: 30000 });
+
+                await message.react('✅');
+
+                collector.once('collect', async (emoji) => {
+                    let cg = '```';
+                    await message.channel.send(`${cg}${rz}${cg}`);
+                })
+
+                return;
+            } catch (err) {
+                const filter = (reaction, user) => reaction.emoji.name === '‼' && user.id === message.author.id;
+                const collector = message.createReactionCollector(filter, { time: 30000 });
+
+                await message.react('‼');
+
+                collector.once('collect', async (emoji) => {
+                    let cg = '```';
+                    await message.channel.send(`${cg}${err}${cg}`);
+                })
+
+                return;
+            }
+        case 'sh':
+            await message.react('▶');
+            try {
+                let js = cmd.slice(1).join(' ');
+                if (js.startsWith('```')) {
+                            js = js.split('\n');
+                            js = js.slice(1);
+                            js = js.join('\n');
+                            js = js.slice(0, js.length - 3);
+                        }
+                        const { stdout, stderr, code } = shelljs.exec(js, { silent: true });
+                        if (!stderr) {
+                            const filter = (reaction, user) => reaction.emoji.name === '✅' && user.id === message.author.id;
+                            const collector = message.createReactionCollector(filter, { time: 30000 });
+    
+                            await message.react('✅');
+    
+                            collector.once('collect', async (emoji) => {
+                                let cg = '```';
+                                const filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+                                const collector = message.createReactionCollector(filter, { time: 30000 });
+                                let msg = await message.channel.send(`${cg}${stdout}\nCode: ${code}${cg}`);
+
+                                collector.once('collect', async () => {
+                                    msg.delete();
+                                })
+                            })
+                        }
+                        else {
+                            const filter = (reaction, user) => reaction.emoji.name === '❗' && user.id === message.author.id;
+                            const collector = message.createReactionCollector(filter, { time: 30000 });
+    
+                            await message.react('❗');
+    
+                            collector.once('collect', async (emoji) => {
+                                let cg = '```';
+                                const filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+                                const collector = message.createReactionCollector(filter, { time: 30000 });
+                                let msg = await message.channel.send(`${cg}${stderr}\nCode: ${code}${cg}`);
+
+                                collector.once('collect', async () => {
+                                    msg.delete();
+                                })
+                            })
+                        }
+    
+                        return;
+                    } catch (err) {
+                        const filter = (reaction, user) => reaction.emoji.name === '‼' && user.id === message.author.id;
+                        const collector = message.createReactionCollector(filter, { time: 30000 });
+    
+                        await message.react('‼');
+    
+                        collector.once('collect', async (emoji) => {
+                            let cg = '```';
+                            const filter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id;
+                            const collector = message.createReactionCollector(filter, { time: 30000 });
+                            let msg = await message.channel.send(`${cg}${err}${cg}`);
+
+                            collector.once('collect', async () => {
+                                msg.delete();
+                            })
+                        })
+    
+                        return;
+                    }
+        case 'unload':
+            if (__commands[cmd[1]]) {
+                __commands[cmd[1]].disabled = true;
+                await message.react('✅');
+            }
+            else await message.react('❌');
+            break;
+        case 'load':
+            if (__commands[cmd[1]]) {
+                __commands[cmd[1]].disabled = false;
+                await message.react('✅');
+            }
+            else await message.react('❌');
+            break;
+        case 'logout':
+            message.channel.send('Logging out now..').then(() => {bot.destroy()});
+        default:
+            let total = process.memoryUsage().rss / 1024 / 1024;
+            let heap = process.memoryUsage().heapTotal / 1024 / 1024;
+            let script = process.memoryUsage().heapUsed / 1024 / 1024;
+            await message.channel.send(`Jishaku V0.0.1, discord.js \`${Discord.version}\` node \`${process.version}\`\n` +
+            `Using total ${Math.round(total * 100) / 100}MB, ${Math.round(heap * 100) / 100}MB belong to heap and ${Math.round(script * 100) / 100}MB used by script\n\n` +
+            `This bot can see ${bot.guilds.size} guilds and ${bot.users.size} users\n`);
+            break;
+    }
+}

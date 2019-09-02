@@ -33,7 +33,7 @@ module.exports.run = async (client, message, args) => {
         });
     }
     let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('#e22216')
     let rUser = message.guild.member(message.mentions.users.first());
@@ -41,7 +41,7 @@ module.exports.run = async (client, message, args) => {
     let reason = args.join(' ');
     if (!reason) { embed.setDescription(`${msgs[1]}`); return message.channel.send(embed); };
     let emb = new Discord.RichEmbed()
-        .setAuthor(used, message.author.avatarURL)
+        .setAuthor(message.author.username, message.author.avatarURL)
         .setDescription(`${msgs[0]}`)
         .setColor('#702db6')
         .addField(msgs[3], message.author)

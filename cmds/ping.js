@@ -22,7 +22,7 @@ module.exports.run = async (client, message, args) => {
     let admin = lang.admin.split('<>')
     let noMoney = lang.noMoney;
     let emb = new Discord.RichEmbed()
-        .setAuthor(used, message.author.avatarURL)
+        .setAuthor(message.author.username, message.author.avatarURL)
         .setDescription(msgs[0])
         .setColor('#ff8148')
         .addField(`Pffagarvvbw2q5td`, `**${client.ping}**`)

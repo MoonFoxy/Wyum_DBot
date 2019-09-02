@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args) => {
         let bb = lang.mute.split('<>')
         let ntf = eval('`' + lang.ntf + '`');
         let embed = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`**${bb[0]}**`)
             .setFooter(ntf, client.user.avatarURL)
             .setColor('#e22216')
@@ -82,9 +82,9 @@ module.exports.run = async (client, message, args) => {
         logschannel.send(embed)
     } catch (err) {
         let config = require('../config.json');
-        let a = client.users.get(config.admin)
+        let a = client.users.get(config.dev)
         let errEmb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
             .setColor('#ff2400')
             .addField(`**${err.name}**`, `**${err.message}**`)

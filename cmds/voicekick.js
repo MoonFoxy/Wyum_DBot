@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
         if (!why) return message.channel.send('Укажите причину кика\n!kick @User Причина')
         let findchannel = message.guild.channels.get('601126936772608010')
         let evote = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription('Войс кик голосование')
             .setColor('#fbec5d')
             .addField('Пользователь', message.author)
@@ -34,7 +34,7 @@ module.exports.run = async (client, message, args) => {
         });
         let logchannel = message.guild.channels.get('601122239722815499')
         let emb = new Discord.RichEmbed()
-            .setAuthor(used, message.author.avatarURL)
+            .setAuthor(message.author.username, message.author.avatarURL)
             .setDescription('Войс кик')
             .setTimestamp();
         if (reactions.get(ok).count < 3) {
