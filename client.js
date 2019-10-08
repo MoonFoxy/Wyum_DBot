@@ -196,7 +196,7 @@ client.on('message', async message => {
     if (votes === null) profile.set(`votes_${userid}`, 0);
     worked = null;
 
-    
+
     //--Профиль
 
     //Локальный профиль
@@ -377,6 +377,7 @@ client.on('message', async message => {
                 });
             });
         };
+
         if (message.content.indexOf('discord.gg') != -1 || message.content.indexOf('discordapp.com/invite') != -1) {
             if (!message.member.hasPermission('MANAGE_CHANNELS')) {
                 message.delete().then(() => {
@@ -411,25 +412,23 @@ client.on('message', async message => {
     let args = messageArray.slice(1);
 
     if (!message.content.startsWith(prefix)) return;
-    let cmdch = client.channels.get(cmdchannel);
-    if (cmdch) {
+    if (client.channels.get(cmdchannel)) {
         if (message.member) {
             if (!message.member.hasPermission('MANAGE_MESSAGES')) {
-                let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.blockInvites + '`').split('<>'); 
-                let ntf = eval('`' + require(`./lang_${lang}.json`).other.ntf + '`');                
+                let msgs = eval('`' + require(`./lang_${lang}.json`).moderation.blockInvites + '`').split('<>');
+                let ntf = eval('`' + require(`./lang_${lang}.json`).other.ntf + '`');
                 let embed = new Discord.RichEmbed()
                     .setAuthor(message.author.username, message.author.avatarURL)
                     .setColor(config.color.red)
                     .setFooter(ntf, client.user.avatarURL)
                     .setTimestamp();
-                if (message.channel != cmdch) {
+                if (message.channel != client.channels.get(cmdchannel)) {
                     message.delete(5 * 1000);
                     embed.setDescription(`${msgs[4]} <#${cmdchannel}>`);
                     return message.channel.send(embed).then(msg => msg.delete(5 * 1000));;
                 }
                 msgs = null;
                 ntf = null;
-                cmdch = null;
                 embed = null;
             };
         };
@@ -441,15 +440,19 @@ client.on('message', async message => {
     clientvmsgs = null;
     clientsmsgs = null;
     guildid = null;
-
     let cmd = client.commands.get(command.slice(prefix.length)) || client.commands.get(client.aliases.get(command.slice(prefix.length)));
-    if (cmd) cmd.run(client, message, args);
+    if (cmd) cmd.run(client, message, args).catch(err => {
+        if (err) {
+            message.channel.send(err[0]);
+        };
+    });
 });
 
 client.on('presenceUpdate', async (oldMember, newMember) => {
     try {
         if (!newMember.guild.me.hasPermission('MANAGE_ROLES')) return;
         if (newMember.user.bot) return;
+        if (false) return;
         async function ifGame(name, roleName, color) {
             if (newMember.presence.game) {
                 if (newMember.presence.game.name.toLowerCase().indexOf(name.toLowerCase()) != -1) {
@@ -506,8 +509,8 @@ client.on('presenceUpdate', async (oldMember, newMember) => {
         ifGame('paladins', 'Paladins', '#76F7F3');
         newMember = null;
         oldMember = null;
-    } catch (error) {
-        error = null;
+    } catch (err) {
+        err = null;
     };
 
 });
@@ -611,14 +614,14 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
     if (newMember.voiceChannel && ch && newMember.voiceChannel.id == ch.id) {
         newMember.guild.createChannel(`${newMember.displayName} Room`, {
             type: 'voice'
-        }).catch(error => error).then(channel => {
+        }).catch(err => err).then(channel => {
             deleteEmptyChannelAfterDelay(channel);
             channel.setParent(ch.parentID)
-                .catch(error => error);
+                .catch(err => err);
             newMember.setVoiceChannel(channel)
-                .catch(error => error);
+                .catch(err => err);
             channel.setUserLimit(5)
-                .catch(error => error);
+                .catch(err => err);
             channel.overwritePermissions(newMember, {
                 MANAGE_CHANNELS: true
             });
@@ -626,7 +629,7 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
         if (!ch.parentID) ch.delete();
     };
     deleteEmptyChannelAfterDelay(oldMember.voiceChannel);
-    newUserChannel = oldUserChannel = guildid = vOnlineId = vOnlineText = chv = null;
+    newUserChannel, oldUserChannel, guildid, vOnlineId, vOnlineText, chv = null;
     return null;
 });
 
@@ -645,8 +648,22 @@ function deleteEmptyChannelAfterDelay(voiceChannel, delay = 300) {
         if (client.ch && voiceChannel.id == client.ch.id) return;
         if (client.ch && voiceChannel.parentID != client.ch.parentID) return;
         voiceChannel.delete()
-            .catch(error => error);
+            .catch(err => err);
     }, delay);
+};
+
+function err(err) {
+    let config = require('../config.json');
+    let a = client.users.get(config.dev);
+    let errEmb = new Discord.RichEmbed()
+        .setAuthor(message.author.username, message.author.avatarURL)
+        .setTitle(`${err[0]}`)
+        .setColor(config.color.red)
+        .addField(`**${err.name}**`, `**${err.message}**`)
+        .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
+        .setTimestamp();
+    message.channel.send(errEmb);
+    console.log(err.stack);
 };
 
 client.login(process.env.DISCORDTOKEN);

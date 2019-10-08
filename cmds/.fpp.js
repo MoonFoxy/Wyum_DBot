@@ -4,7 +4,7 @@ module.exports.run = async (client, message, args) => {
     try {
         if (message.guild.id != '596463761918001211') return;
         if (!message.member.voiceChannel) return message.channel.send(`**${message.author} зайдите в голосовой канал**`);
-        let pid = '601128457522511927';
+        let pid = '616642988084428815';
         if (message.member.voiceChannel.name.toLowerCase().indexOf('duo') == -1 && message.member.voiceChannel.name.toLowerCase().indexOf('squad') == -1 && message.member.voiceChannel.parentID != pid) return message.channel.send(`**${message.author} Зайдите в предназначеный для этого канал**`)
         let msg = args.join(' ');
         if (!msg) return message.channel.send('**Использование !fpp ADR MAP**');

@@ -16,25 +16,37 @@ module.exports.run = async (client, message, args) => {
             .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`**${msgs[0]}**`)
             .setColor('RANDOM')
-        if (!message.member.hasPermission(`ADMINISTRATOR`)) { embed.setDescription(noPerm); return message.channel.send(embed); }
-        let logsname = 'logs'
+            .setFooter(ntf, client.user.avatarURL)
+            .setTimestamp();
+
+        if (!message.member.hasPermission(`ADMINISTRATOR`)) {
+            embed.setDescription(noPerm);
+            return message.channel.send(embed);
+        }
+
         let logschannel = message.guild.channels.get(client.guild.fetch(`logsChannel_${message.guild.id}`));
         if (!logschannel) {
-            await message.guild.createChannel(logsname, { type: 'text' }).then(channel => {
+            await message.guild.createChannel('logs', {
+                type: 'text'
+            }).then(channel => {
 
                 client.guild.set(`logsChannel_${message.guild.id}`, channel.id);
                 channel.overwritePermissions(message.guild.defaultRole, {
                     VIEW_CHANNEL: false,
                 });
             });
-        }
+        };
+
         let joinname = 'join-leave'
         let joinchannel = message.guild.channels.get(client.guild.fetch(`joinleave_${message.guild.id}`));
         if (!joinchannel) {
-            await message.guild.createChannel(joinname, { type: 'text' }).then(channel => {
+            await message.guild.createChannel(joinname, {
+                type: 'text'
+            }).then(channel => {
                 client.guild.set(`joinleave_${message.guild.id}`, channel.id);
             });
-        }
+        };
+
         embed.setDescription(msgs[1])
         embed.setFooter(ntf, client.user.avatarURL)
         logschannel.send(embed);

@@ -39,7 +39,7 @@ module.exports.run = async (client, message, args) => {
         let errEmb = new Discord.RichEmbed()
             .setAuthor(message.author.username, message.author.avatarURL)
             .setTitle(`${err[0]}`)
-            .setColor('#ff2400')
+            .setColor('#FF2400')
             .addField(`**${err.name}**`, `**${err.message}**`)
             .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
             .setTimestamp();

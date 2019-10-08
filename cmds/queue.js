@@ -4,7 +4,7 @@ const Discord = module.require('discord.js');
 const ytdl = require('ytdl-core');
 
 module.exports.run = async (client, message, args) => {
-    try {
+
 
         let config = require('../config.json');
         let lang = require(`../lang_${client.lang}.json`);
@@ -49,19 +49,6 @@ module.exports.run = async (client, message, args) => {
             .setFooter(ntf, client.user.avatarURL);
         message.channel.send(bembed);
 
-    } catch (err) {
-         let config = require('../config.json');
-        let a = client.users.get(config.dev)
-        let errEmb = new Discord.RichEmbed()
-            .setAuthor(message.author.username, message.author.avatarURL)
-            .setTitle(`${err[0]}`)
-            .setColor('#ff2400')
-            .addField(`**${err.name}**`, `**${err.message}**`)
-            .setFooter(`${err[1]} ${a.tag}`, client.user.avatarURL)
-            .setTimestamp();
-        message.channel.send(errEmb);
-        console.log(err.stack);
-    };
 
 };
 module.exports.help = {

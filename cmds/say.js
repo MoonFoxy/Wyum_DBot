@@ -6,7 +6,6 @@ module.exports.run = async (client, message, args) => {
     let config = require('../config.json');
     let lang = require(`../lang_${client.lang}.json`);
     let otherlang = require(`../lang_${client.lang}.json`);
-    let olang = otherlang.casino.split('<>');
     let evaled = eval('`' + lang.say + '`');
     let ntf = eval('`' + lang.ntf + '`');
     let noUser = lang.noUser;
