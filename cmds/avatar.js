@@ -22,7 +22,7 @@ module.exports.run = (client, message, args) => {
         if (!usr) {
             wrong.setDescription(noUser);
             return message.channel.send(wrong);
-        };
+        }
 
         let bembed = new Discord.RichEmbed()
             .setAuthor(message.author.username, message.author.avatarURL)
@@ -45,7 +45,7 @@ module.exports.run = (client, message, args) => {
             .setTimestamp();
         message.channel.send(errEmb);
         console.log(err.stack);
-    };
+    }
 };
 module.exports.help = {
     name: 'avatar',
